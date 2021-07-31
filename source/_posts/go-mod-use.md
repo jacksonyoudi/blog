@@ -8,7 +8,7 @@ cover: true
 coverImg: https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/YDsDmh.jpg
 toc: true
 mathjax: false
-summary: 本文很细致的介绍go mod使用，一步一步代码完全掌握go mod，深入学习
+summary: 本文很细致的介绍go mod使用，一步一步带你完全掌握go mod，深入学习
 categories: go
 tags:
 -  go
