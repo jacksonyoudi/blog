@@ -374,7 +374,7 @@ robots.txt本身也是需要抓取的，出于效率考虑，一般爬虫不会�
 
 
 
-![](https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/Xzzzex.jpg)
+![img.png](img.png)![](https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/nGoP78.jpg)
 
 ### 恶意爬虫
 在互联网世界中，每天都有不计其数的爬虫在日夜不息地爬取数据，其中恶意爬虫的数量甚至高于非恶意爬虫。遵守Robots协议的爬虫才是好爬虫，但是并不是每个爬虫都会主动遵守Robots协议。
