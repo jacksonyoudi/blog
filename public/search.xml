@@ -1,80 +1,599 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>(效率工具)程序员必备终端及美化</title>
-      <link href="/2021/07/31/iterm/"/>
-      <url>/2021/07/31/iterm/</url>
-      
-        <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/QicdYL.jpg"></p><p>作为一个合格的程序员，CLI是必备的技能。 工欲善其事，必先利其器。一个顺手并且提高效率的终端是必须的。 平时很多人会私信或评论中问我关于我的终端相关的内容，今天我整理出来。分享给大家。</p><h4 id="需要安装的软件"><a href="#需要安装的软件" class="headerlink" title="需要安装的软件"></a>需要安装的软件</h4><blockquote><ol><li>iterm2</li><li>dracula</li><li>zsh</li><li>Oh My ZSH</li><li>powerlevel10k</li></ol></blockquote><p>上面👆给出了需要安装的软件包， 下面就按安装的顺序一个一个介绍</p><h3 id="一、iterm2"><a href="#一、iterm2" class="headerlink" title="一、iterm2"></a>一、iterm2</h3><p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/Wbh9jA.jpg"></p><p>这个就不多介绍， 我相信只要是使用mac的程序员，这个都是知道的， 当然，也有一个其他类似的产品。 后面安装的和iterm2没有强依赖。 这只是一个终端， 没有最好，适合你的就是最好的。 顺便提一下， 我自己的💻使用touch bar的， 是支持touch bar，一些很炫的操作可以在touch bar上操作。但是，我一直使用公司的笔记本，使用快捷键进行操作， 效率更高。</p><p><a href="https://www.iterm2.com/">官网</a></p><h4 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h4><p>1). 方式一<br><a href="https://www.iterm2.com/downloads.html">下载地址</a>， 下载后，点击安装就可以了</p><p>2). 方式二</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">brew cask <span class="token function">install</span> iterm2   <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>brew使用，这里就不介绍了</p><h4 id="2-使用"><a href="#2-使用" class="headerlink" title="2. 使用"></a>2. 使用</h4><p><a href="https://www.iterm2.com/documentation.html">文档</a><br>这里顺便介绍一下，主要是快捷键, 自己对着文档，学习一下， 因为重点不在这。<br><code>CMD + 单击</code> 可以实现跳转</p><h3 id="二、-安装配置dracula主题"><a href="#二、-安装配置dracula主题" class="headerlink" title="二、 安装配置dracula主题"></a>二、 安装配置dracula主题</h3><p>这个也有两种方式</p><ol><li>使用git<br><code>git clone https://github.com/dracula/iterm.git</code></li><li>直接下载，解压<br>下载地址 <a href="https://github.com/dracula/iterm/archive/master.zip">GitHub .zip download</a></li></ol><p><em>使用主题</em><br>配置过程如下</p><blockquote><ol><li>打开 iTerm2 &gt; Preferences &gt; Profiles &gt; Colors Tab， 选择color</li><li>点击下面的<code>Color Presets</code>,展开</li><li>选择<code>import</code>, 将上面👆下载的文件导入</li><li>选择<code>Dracula.itermcolors</code>文件导入</li><li>导入以后，重新选择 <code>Color Presets</code>，选择 <code>dracula</code>就可以了<br> 具体如下：<br> <img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/FLOTC9.jpg"></li></ol></blockquote><h3 id="三、Oh-My-ZSH"><a href="#三、Oh-My-ZSH" class="headerlink" title="三、Oh My ZSH"></a>三、Oh My ZSH</h3><p><a href="%5Bhttps://ohmyz.sh/%5D(https://ohmyz.sh/)">Oh My ZSH</a><br><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/1zZOJy.jpg"></p><ol><li><p>先安装 zsh<br>下面只给命令</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装</span>brew <span class="token function">install</span> <span class="token function">zsh</span> zsh-completions<span class="token comment"># 切换shell</span>chsh -s /bin/zsh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li><li><p>安装Oh My ZSH<br>下面选一种</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sh</span> -c <span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token function">curl</span> -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh<span class="token variable">)</span></span>"</span><span class="token comment"># or</span><span class="token function">sh</span> -c <span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token function">wget</span> https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -<span class="token variable">)</span></span>"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>如果感兴趣，可以看下脚本内容，定义了安装目录什么的，和常见的安装shell没有区别。</p></li><li><p>关闭iterm2, 然后再打开，就生效了</p></li><li><p>配置 一个插件<br>配置在 <code>.zshrc</code>文件中，配置很简单<br>可以使用的插件以及描述 <a href="https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins">github</a></p></li></ol><h3 id="四、powerlevel10k"><a href="#四、powerlevel10k" class="headerlink" title="四、powerlevel10k"></a>四、powerlevel10k</h3><p><a href="https://github.com/romkatv/powerlevel10k">github地址</a></p><p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/DUuyUe.jpg"></p><ol><li>安装主题<br>也有很多种方式， 这里使用git<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone --depth<span class="token operator">=</span><span class="token number">1</span> https://github.com/romkatv/powerlevel10k.git <span class="token variable">${ZSH_CUSTOM<span class="token operator">:-</span>$HOME<span class="token operator">/</span>.oh-my-zsh<span class="token operator">/</span>custom}</span>/themes/powerlevel10k<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>在 <code>.zshrc</code>中配置主题生效，退出， 就可以生效<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token assign-left variable">ZSH_THEME</span><span class="token operator">=</span><span class="token string">"powerlevel10k/powerlevel10k"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>如果你还没有安装字体，那么可以使用下面的命令来安装所需字体。<br>一些需要字体安装的文档 <a href="https://github.com/bhilburn/powerlevel9k/wiki/Install-Instructions#step-2-install-a-powerline-font">install-a-powerline-font</a><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># clone</span><span class="token function">git</span> clone https://github.com/powerline/fonts.git<span class="token comment"># install</span><span class="token builtin class-name">cd</span> fonts./install.sh<span class="token comment"># clean-up a bit</span><span class="token builtin class-name">cd</span> <span class="token punctuation">..</span><span class="token function">rm</span> -rf fonts<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li></ol><p>字体安装完毕之后，打开 Shell 你会发现字体依然没有生效，这是因为你没有选择对应的字体。在设置中选择你想要的支持字体。<br>如果有一些特殊的图标不能正常显示， 可能需要安装 <a href="https://github.com/gabrielelana/awesome-terminal-fonts">awesome-terminal-fonts</a>字体</p><p>还有一些图标，比如github,gitlab, git,linux的一些图标在<code>/Users/youdi/.oh-my-zsh/custom/themes/powerlevel9k/functions/icons.zsh</code>中修改。</p><p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/Mob8Xk.jpg"></p><h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>我使用 <code>colorls</code>,是ruby的的工具,<br><a href="%5Bhttps://github.com/athityakumar/colorls%5D(https://github.com/athityakumar/colorls)">安装</a><br><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/vjJGRU.jpg"></p><p>另外一个查看性能的工具 <code>gotop</code>, 你肯定用过 <code>top</code>,<code>htop</code><br><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/8cEKLj.jpg"></p><p><a href="%5Bhttps://github.com/cjbassi/gotop%5D(https://github.com/cjbassi/gotop)">源码</a>, 类似的 top的工具很多，各个语言版本的都有， 我比较喜欢编译型语言的版本。</p>]]></content>
-      
-      
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/07/31/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>go mod使用</title>
+    <url>/2021/07/31/go-mod-use/</url>
+    <content><![CDATA[<p>最近由于换工作，开始交接工作。整理以前的工作内容，由于组内就我一个在做go和大数据。 所以开发没有规划，当时是怎么快怎么来。go也是使用最传统的go path的方式管理的。都是手动管理依赖的。现在交接给他人，需要多人开发，发现很多问题。比如版本问题，各种依赖的问题等等。</p>
+<p>由于工作原因，几乎所有主流语言都写过。所以，对应语言包管理工具也都了解和使用过。我前面有写过maven的使用。<br>maven是使用过的功能最强大的包管理工具了，maven定位是项目管理工具。pip和npm都是及格的产品。</p>
+<p>我个人觉得，一个包管理工具应该有以下功能：</p>
+<h3 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h3><ol>
+<li>依赖管理</li>
+<li>依赖包版本控制</li>
+<li>对应的包管理平台</li>
+<li>可以私有化部署</li>
+</ol>
+<p>加分：<br>5. 代码包是否可以复用<br>6. 构建，测试,打包<br>7. 发布上线</p>
+<p>对比上面几点：<br>目前做的最好的也就 maven了，gradle没有使用过，不知道。</p>
+<p>今天主角是go mod，先来谈谈没有使用go mod之前的问题。</p>
+<h3 id="使用go-path问题"><a href="#使用go-path问题" class="headerlink" title="使用go path问题"></a>使用go path问题</h3><ol>
+<li>代码开发必须在go path src目录下，不然，就有问题。</li>
+<li>依赖手动管理</li>
+<li>依赖包没有版本可言</li>
+</ol>
+<p>从这个看， go path不算包管理工具</p>
+<h3 id="govendor"><a href="#govendor" class="headerlink" title="govendor"></a>govendor</h3><ol>
+<li>解决了包依赖，一个配置文件就管理</li>
+<li>依赖包全都下载到项目vendor下，每个项目都把有一份。拉取项目时,开始怀疑人生。</li>
+</ol>
+<h3 id="go-mod介绍"><a href="#go-mod介绍" class="headerlink" title="go mod介绍"></a>go mod介绍</h3><p>go modules 是 golang 1.11 新加的特性。现在1.12 已经发布了，是时候用起来了。Modules官方定义为：</p>
+<blockquote>
+<p>模块是相关Go包的集合。modules是源代码交换和版本控制的单元。 go命令直接支持使用modules，包括记录和解析对其他模块的依赖性。modules替换旧的基于GOPATH的方法来指定在给定构建中使用哪些源文件。</p>
+</blockquote>
+<h3 id="如何使用go-mod"><a href="#如何使用go-mod" class="headerlink" title="如何使用go mod"></a>如何使用go mod</h3><p>首先，必须升级go到1.11,目前版本是1.14<br>下面我以我自己升级演示：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">
+<span class="token comment">### 卸载旧版本，删除对应文件</span>
+brew uninstall -f go
+
+<span class="token comment">### 更新一下brew</span>
+
+brew update
+
+
+<span class="token comment">### 安装go</span>
+brew <span class="token function">install</span> go<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上面升级完了，使用 <code>go version</code>看下版本</p>
+<pre class="line-numbers language-none"><code class="language-none">go version go1.14.1 darwin/amd64<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>下面设置go mod和go proxy</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go <span class="token function">env</span> -w <span class="token assign-left variable">GOBIN</span><span class="token operator">=</span>/Users/youdi/go/bin
+go <span class="token function">env</span> -w <span class="token assign-left variable">GO111MODULE</span><span class="token operator">=</span>on
+go <span class="token function">env</span> -w <span class="token assign-left variable">GOPROXY</span><span class="token operator">=</span>https://goproxy.cn,direct // 使用七牛云的<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>注意： go env -w会将配置写到  <code>GOENV="/Users/youdi/Library/Application Support/go/env"</code></p>
+<p>下面看下我的配置</p>
+<pre class="line-numbers language-none"><code class="language-none">GO111MODULE="on"
+GOARCH="amd64"
+GOBIN="/Users/youdi/go/bin"
+GOCACHE="/Users/youdi/Library/Caches/go-build"
+GOENV="/Users/youdi/Library/Application Support/go/env"
+GOEXE=""
+GOFLAGS=""
+GOHOSTARCH="amd64"
+GOHOSTOS="darwin"
+GOINSECURE=""
+GONOPROXY=""
+GONOSUMDB=""
+GOOS="darwin"
+GOPATH="/Users/youdi/go"
+GOPRIVATE=""
+GOPROXY="https://goproxy.cn,direct"
+GOROOT="/usr/local/go"
+GOSUMDB="off"
+GOTMPDIR=""
+GOTOOLDIR="/usr/local/go/pkg/tool/darwin_amd64"
+GCCGO="gccgo"
+AR="ar"
+CC="clang"
+CXX="clang++"
+CGO_ENABLED="1"
+GOMOD="/dev/null"
+CGO_CFLAGS="-g -O2"
+CGO_CPPFLAGS=""
+CGO_CXXFLAGS="-g -O2"
+CGO_FFLAGS="-g -O2"
+CGO_LDFLAGS="-g -O2"
+PKG_CONFIG="pkg-config"
+GOGCCFLAGS="-fPIC -m64 -pthread -fno-caret-diagnostics -Qunused-arguments -fmessage-length=0 -fdebug-prefix-map=/var/folders/8m/v_1j4dgs7rzgqq4p_4_8k_nr0000gn/T/go-build221113671=/tmp/go-build -gno-record-gcc-switches -fno-common"
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<p>我们看一下，我修改的内容</p>
+<p>cat /Users/youdi/Library/Application Support/go/env</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token assign-left variable">GO111MODULE</span><span class="token operator">=</span>on
+<span class="token assign-left variable">GOBIN</span><span class="token operator">=</span>/Users/youdi/go/bin
+<span class="token assign-left variable">GOPROXY</span><span class="token operator">=</span>https://goproxy.cn,direct
+<span class="token assign-left variable">GOSUMDB</span><span class="token operator">=</span>off<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h3 id="GO111MODULE"><a href="#GO111MODULE" class="headerlink" title="GO111MODULE"></a>GO111MODULE</h3><p>GO111MODULE 有三个值：off, on和auto（默认值）。</p>
+<p>GO111MODULE=off，go命令行将不会支持module功能，寻找依赖包的方式将会沿用旧版本那种通过vendor目录或者GOPATH模式来查找。<br>GO111MODULE=on，go命令行会使用modules，而一点也不会去GOPATH目录下查找。<br>GO111MODULE=auto，默认值，go命令行将会根据当前目录来决定是否启用module功能。这种情况下可以分为两种情形：</p>
+<pre><code>当前目录在GOPATH/src之外且该目录包含go.mod文件
+当前文件在包含go.mod文件的目录下面。
+</code></pre>
+<p>当modules功能启用时，依赖包的存放位置变更为$GOPATH/pkg，允许同一个package多个版本并存，且多个项目可以共享缓存的 module</p>
+<p>我们看下目录：</p>
+<p>cd /Users/youdi/go/pkg</p>
+<pre class="line-numbers language-none"><code class="language-none">├── darwin_amd64
+│&nbsp;&nbsp; ├── github.com
+│&nbsp;&nbsp; ├── go.etcd.io
+│&nbsp;&nbsp; ├── golang
+│&nbsp;&nbsp; ├── golang.org
+│&nbsp;&nbsp; ├── gopkg.in
+│&nbsp;&nbsp; ├── quickstart
+│&nbsp;&nbsp; └── uc.a
+├── mod
+│&nbsp;&nbsp; ├── cache
+│&nbsp;&nbsp; ├── github.com
+│&nbsp;&nbsp; ├── golang.org
+│&nbsp;&nbsp; ├── google.golang.org
+│&nbsp;&nbsp; └── gopkg.in
+└── sumdb
+    └── sum.golang.org<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h3 id="go-mod命令"><a href="#go-mod命令" class="headerlink" title="go mod命令"></a>go mod命令</h3><p>golang 提供了 <code>go mod</code>命令来管理包。</p>
+<p>go help mod</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">
+Go mod provides access to operations on modules.
+
+Note that support <span class="token keyword">for</span> modules is built into all the go commands,
+not just <span class="token string">'go mod'</span><span class="token builtin class-name">.</span> For example, day-to-day adding, removing, upgrading,
+and downgrading of dependencies should be <span class="token keyword">done</span> using <span class="token string">'go get'</span><span class="token builtin class-name">.</span>
+See <span class="token string">'go help modules'</span> <span class="token keyword">for</span> an overview of module functionality.
+
+Usage:
+
+	go mod <span class="token operator">&lt;</span>command<span class="token operator">&gt;</span> <span class="token punctuation">[</span>arguments<span class="token punctuation">]</span>
+
+The commands are:
+
+	download    download modules to <span class="token builtin class-name">local</span> cache
+	edit        edit go.mod from tools or scripts
+	graph       print module requirement graph
+	init        initialize new module <span class="token keyword">in</span> current directory
+	tidy        <span class="token function">add</span> missing and remove unused modules
+	vendor      <span class="token function">make</span> vendored copy of dependencies
+	verify      verify dependencies have expected content
+	why         explain why packages or modules are needed
+
+Use <span class="token string">"go help mod &lt;command&gt;"</span> <span class="token keyword">for</span> <span class="token function">more</span> information about a command.
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>go mod 有以下命令：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>download</td>
+<td>download modules to local cache(下载依赖包)</td>
+</tr>
+<tr>
+<td>edit</td>
+<td>edit go.mod from tools or scripts（编辑go.mod)</td>
+</tr>
+<tr>
+<td>graph</td>
+<td>print module requirement graph (打印模块依赖图)</td>
+</tr>
+<tr>
+<td>verify</td>
+<td>initialize new module in current directory（在当前目录初始化mod）</td>
+</tr>
+<tr>
+<td>tidy</td>
+<td>add missing and remove unused modules(拉取缺少的模块，移除不用的模块)</td>
+</tr>
+<tr>
+<td>vendor</td>
+<td>make vendored copy of dependencies(将依赖复制到vendor下)</td>
+</tr>
+<tr>
+<td>verify</td>
+<td>verify dependencies have expected content (验证依赖是否正确）</td>
+</tr>
+<tr>
+<td>why</td>
+<td>explain why packages or modules are needed(解释为什么需要依赖)</td>
+</tr>
+</tbody></table>
+<p>比较常用的是 <code>init</code>,<code>tidy</code>, <code>edit</code></p>
+<h3 id="使用go-mod管理一个新项目"><a href="#使用go-mod管理一个新项目" class="headerlink" title="使用go mod管理一个新项目"></a>使用go mod管理一个新项目</h3><h4 id="1-初始化项目"><a href="#1-初始化项目" class="headerlink" title="1. 初始化项目"></a>1. 初始化项目</h4><p>可以随便找一个目录创建项目，我使用习惯用IDEA进行创建</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mkdir</span> Gone
+<span class="token builtin class-name">cd</span> Gone
+go mod init Gone<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>查看一下 go.mod文件</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">module Gone
+
+<span class="token keyword">go</span> <span class="token number">1.14</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>go.mod文件一旦创建后，它的内容将会被go toolchain全面掌控。go toolchain会在各类命令执行时，比如go get、go build、go mod等修改和维护go.mod文件。</p>
+<p>go.mod 提供了module, require、replace和exclude 四个命令</p>
+<ul>
+<li><code>module</code> 语句指定包的名字（路径）</li>
+<li><code>require</code> 语句指定的依赖项模块</li>
+<li><code>replace</code> 语句可以替换依赖项模块</li>
+<li><code>exclude</code> 语句可以忽略依赖项模块</li>
+</ul>
+<h4 id="2-添加依赖"><a href="#2-添加依赖" class="headerlink" title="2. 添加依赖"></a>2. 添加依赖</h4><p>创建 main.go文件</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"github.com/gin-gonic/gin"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	r <span class="token operator">:=</span> gin<span class="token punctuation">.</span><span class="token function">Default</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	r<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span><span class="token string">"/ping"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span><span class="token function">JSON</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span>
+			<span class="token string">"message"</span><span class="token punctuation">:</span> <span class="token string">"pong"</span><span class="token punctuation">,</span>
+		<span class="token punctuation">}</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span>
+	r<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<p>执行 go run main.go 运行代码会发现 go mod 会自动查找依赖自动下载<br>再查看 <code>go.mod</code></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">module Gone
+
+go <span class="token number">1.14</span>
+
+require github.com/gin-gonic/gin v1.6.3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>go module 安装 package 的原則是先拉最新的 release tag，若无tag则拉最新的commit</p>
+<p>go 会自动生成一个 go.sum 文件来记录 dependency tree</p>
+<p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/JhSGHb.jpg"></p>
+<p>再次执行脚本 go run main.go发现跳过了检查并安装依赖的步骤。</p>
+<p>可以使用命令 go list -m -u all 来检查可以升级的package，使用go get -u need-upgrade-package 升级后会将新的依赖版本更新到go.mod * 也可以使用 go get -u 升级所有依赖</p>
+<p>去mod包缓存下看看</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">/Users/youdi/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+<h3 id="go-get升级"><a href="#go-get升级" class="headerlink" title="go get升级"></a>go get升级</h3><ul>
+<li>运行 go get -u 将会升级到最新的次要版本或者修订版本(x.y.z, z是修订版本号， y是次要版本号)</li>
+<li>运行 go get -u=patch 将会升级到最新的修订版本</li>
+<li>运行 go get package@version 将会升级到指定的版本号version</li>
+<li>运行go get如果有版本的更改，那么go.mod文件也会更改</li>
+</ul>
+<h3 id="使用replace替换无法直接获取的package"><a href="#使用replace替换无法直接获取的package" class="headerlink" title="使用replace替换无法直接获取的package"></a>使用replace替换无法直接获取的package</h3><p>由于某些已知的原因，并不是所有的package都能成功下载，比如：golang.org下的包。</p>
+<p>modules 可以通过在 go.mod 文件中使用 replace 指令替换成github上对应的库，比如：</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">replace <span class="token punctuation">(</span>
+	golang<span class="token punctuation">.</span>org<span class="token operator">/</span>x<span class="token operator">/</span>crypto v0<span class="token punctuation">.</span><span class="token number">0.0</span><span class="token operator">-</span><span class="token number">20190313024323</span><span class="token operator">-</span>a1f597ede03a <span class="token operator">=</span><span class="token operator">&gt;</span> github<span class="token punctuation">.</span>com<span class="token operator">/</span>golang<span class="token operator">/</span>crypto v0<span class="token punctuation">.</span><span class="token number">0.0</span><span class="token operator">-</span><span class="token number">20190313024323</span><span class="token operator">-</span>a1f597ede03a
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="go-mod发布和使用"><a href="#go-mod发布和使用" class="headerlink" title="go mod发布和使用"></a>go mod发布和使用</h3><p>参考Roberto Selbach写的go mod入门文章，文末，我给出链接</p>
+<h3 id="Creating-a-Module"><a href="#Creating-a-Module" class="headerlink" title="Creating a Module"></a>Creating a Module</h3><p>如果你设置好go mod了，那你就可以在任何目录下随便创建</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token variable">$mkdir</span> gomodone
+<span class="token variable">$cd</span> gomodone<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>在这个目录下创建一个文件<code>say.go</code></p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> gomodone
+
+<span class="token keyword">import</span> <span class="token string">"fmt"</span> 
+
+<span class="token comment">// say Hi to someone</span>
+<span class="token keyword">func</span> <span class="token function">SayHi</span><span class="token punctuation">(</span>name <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+   <span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"Hi, %s"</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>初始化一个 <code>go.mod</code>文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ go mod init github.com/jacksonyoudi/gomodone
+go: creating new go.mod: module github.com/jacksonyoudi/gomodone<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>查看 go.mod内容如下：</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">github<span class="token punctuation">.</span>com<span class="token operator">/</span>jacksonyoudi<span class="token operator">/</span>gomodone
+<span class="token keyword">go</span> <span class="token number">1.14</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>下面我们要将这个module发布到github上，然后在另外一个程序使用</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token variable">$git</span> init
+<span class="token variable">$vim</span> .gitiiignore
+<span class="token variable">$git</span> commit -am <span class="token string">"init"</span>
+// github创建对应的repo
+<span class="token variable">$git</span> remote <span class="token function">add</span> origin git@github.com:jacksonyoudi/gomodone.git
+<span class="token variable">$git</span> push -u origin master<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>执行完，上面我们就相当于发布完了。</p>
+<p>如果有人需要使用，就可以使用</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go get github.com/jacksonyoudi/gomodone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这个时候没有加tag，所以，没有版本的控制。默认是v0.0.0后面接上时间和commitid。如下：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">gomodone@v0.0.0-20200517004046-ee882713fd1e<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>官方不建议这样做，没有进行版本控制管理。</p>
+<h3 id="module-versioning"><a href="#module-versioning" class="headerlink" title="module versioning"></a>module versioning</h3><p>使用tag，进行版本控制</p>
+<h4 id="making-a-release"><a href="#making-a-release" class="headerlink" title="making a release"></a>making a release</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> tag v1.0.0
+<span class="token function">git</span> push --tags<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>操作完，我们的module就发布了一个v1.0.0的版本了。</p>
+<p>推荐在这个状态下，再切出一个分支，用于后续v1.0.0的修复推送,不要直接在master分支修复</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token variable">$git</span> checkout -b v1
+<span class="token variable">$git</span> push -u origin v1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+<h3 id="use-our-module"><a href="#use-our-module" class="headerlink" title="use our module"></a>use our module</h3><p>上面已经发布了一个v1.0.0的版本，我们可以在另一个项目中使用，创建一个go的项目</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token variable">$mkdir</span> Gone
+<span class="token variable">$cd</span> Gone
+<span class="token variable">$vim</span> main.go<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"fmt"</span>
+	<span class="token string">"github.com/jacksonyoudi/gomodone"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>gomodone<span class="token punctuation">.</span><span class="token function">SayHi</span><span class="token punctuation">(</span><span class="token string">"Roberto"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>代码写好了，我们生成 go mod文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go mod init Gone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>上面命令执行完，会生成 go mod文件<br>看下mod文件：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">module Gone
+
+go <span class="token number">1.14</span>
+
+require <span class="token punctuation">(</span>
+	github.com/jacksonyoudi/gomodone v1.0.0
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token variable">$go</span> mod tidy
+go: finding module <span class="token keyword">for</span> package github.com/jacksonyoudi/gomodone
+go: found github.com/jacksonyoudi/gomodone <span class="token keyword">in</span> github.com/jacksonyoudi/gomodone v1.0.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>同时还生成了go.sum, 其中包含软件包的哈希值，以确保我们具有正确的版本和文件。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">github.com/jacksonyoudi/gomodone v1.0.1 h1:jFd+qZlAB0R3zqrC9kwO8IgPrAdayMUS0rSHMDc/uG8<span class="token operator">=</span>
+github.com/jacksonyoudi/gomodone v1.0.1/go.mod h1:XWi+BLbuiuC2YM8Qz4yQzTSPtHt3T3hrlNN2pNlyA94<span class="token operator">=</span>
+github.com/jacksonyoudi/gomodone/v2 v2.0.0 h1:GpzGeXCx/Xv2ueiZJ8hEhFwLu7xjxLBjkOYSmg8Ya/w<span class="token operator">=</span>
+github.com/jacksonyoudi/gomodone/v2 v2.0.0/go.mod h1:L8uFPSZNHoAhpaePWUfKmGinjufYdw9c2i70xtBorSw<span class="token operator">=</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这个内容是下面的，需要操作执行的结果</p>
+<p>go run main.go就可以运行了</p>
+<h3 id="Making-a-bugfix-release"><a href="#Making-a-bugfix-release" class="headerlink" title="Making a bugfix release"></a>Making a bugfix release</h3><p>假如fix一个bug,我们在v1版本上进行修复</p>
+<p>修改代码如下：</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// say Hi to someone</span>
+<span class="token keyword">func</span> <span class="token function">SayHi</span><span class="token punctuation">(</span>name <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+<span class="token operator">-</span>       <span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"Hi, %s"</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span>
+<span class="token operator">+</span>       <span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"Hi, %s!"</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>修复好，我们开始push</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">git</span> commit -m <span class="token string">"Emphasize our friendliness"</span> say.go
+$ <span class="token function">git</span> tag v1.0.1
+$ <span class="token function">git</span> push --tags origin v1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="Updating-modules"><a href="#Updating-modules" class="headerlink" title="Updating modules"></a>Updating modules</h4><p>刚才fix bug，所以要在我们使用项目中更新</p>
+<p>这个需要我们手动执行更新module操作</p>
+<p>我们通过使用我们的好朋友来做到这一点go get：</p>
+<ul>
+<li>运行  <code>go get -u</code> 以使用最新的  minor  版本或修补程序版本（即它将从1.0.0更新到例如1.0.1，或者，如果可用，则更新为1.1.0）</li>
+<li>运行  go get -u=patch 以使用最新的  修补程序  版本（即，将更新为1.0.1但不更新  为1.1.0）</li>
+<li>运行go get package@version 以更新到特定版本（例如github.com/jacksonyoudi/<a href="mailto:gomodone@v1.0.1">gomodone@v1.0.1</a>）</li>
+</ul>
+<p>目前module最新的也是v1.0.1</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">// 更新最新
+<span class="token variable">$go</span> get -u
+<span class="token variable">$go</span> get -u<span class="token operator">=</span>patch
+//指定包，指定版本
+<span class="token variable">$go</span> get github.com/jacksonyoudi/gomodone@v1.0.1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>操作完，go.mod文件会修改如下:</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">module Gone
+
+<span class="token keyword">go</span> <span class="token number">1.14</span>
+
+require <span class="token punctuation">(</span>
+	github<span class="token punctuation">.</span>com<span class="token operator">/</span>jacksonyoudi<span class="token operator">/</span>gomodone v1<span class="token punctuation">.</span><span class="token number">0.1</span>
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="Major-versions"><a href="#Major-versions" class="headerlink" title="Major versions"></a>Major versions</h4><p>根据语义版本语义，主要版本与次要版本  不同。主要版本可能会破坏向后兼容性。从Go模块的角度来看，主要版本是  完全不同的软件包。乍一看这听起来很奇怪，但这是有道理的：两个不兼容的库版本是两个不同的库。<br>比如下面修改，完全破坏了兼容性。</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> gomodone
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"errors"</span>
+	<span class="token string">"fmt"</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment">// Hi returns a friendly greeting</span>
+<span class="token comment">// Hi returns a friendly greeting in language lang</span>
+<span class="token keyword">func</span> <span class="token function">SayHi</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> lang <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword">switch</span> lang <span class="token punctuation">{</span>
+	<span class="token keyword">case</span> <span class="token string">"en"</span><span class="token punctuation">:</span>
+		<span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"Hi, %s!"</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">nil</span>
+	<span class="token keyword">case</span> <span class="token string">"pt"</span><span class="token punctuation">:</span>
+		<span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"Oi, %s!"</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">nil</span>
+	<span class="token keyword">case</span> <span class="token string">"es"</span><span class="token punctuation">:</span>
+		<span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"¡Hola, %s!"</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">nil</span>
+	<span class="token keyword">case</span> <span class="token string">"fr"</span><span class="token punctuation">:</span>
+		<span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"Bonjour, %s!"</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">nil</span>
+	<span class="token keyword">default</span><span class="token punctuation">:</span>
+		<span class="token keyword">return</span> <span class="token string">""</span><span class="token punctuation">,</span> errors<span class="token punctuation">.</span><span class="token function">New</span><span class="token punctuation">(</span><span class="token string">"unknown language"</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<p>如上，我们需要不同的大版本，这种情况下</p>
+<p>修改 go.mod如下</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">module github<span class="token punctuation">.</span>com<span class="token operator">/</span>jacksonyoudi<span class="token operator">/</span>gomodone<span class="token operator">/</span>v2
+
+<span class="token keyword">go</span> <span class="token number">1.14</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>然后，重新tag，push</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">git</span> commit say.go -m <span class="token string">"Change Hi to allow multilang"</span>
+$ <span class="token function">git</span> checkout -b v2 <span class="token comment"># 用于v2版本，后续修复v2</span>
+$ <span class="token function">git</span> commit go.mod -m <span class="token string">"Bump version to v2"</span>
+$ <span class="token function">git</span> tag v2.0.0
+$ <span class="token function">git</span> push --tags origin v2 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Updating-to-a-major-version"><a href="#Updating-to-a-major-version" class="headerlink" title="Updating to a major version"></a>Updating to a major version</h3><p>即使发布了库的新不兼容版本，现有软件 也不会中断，因为它将继续使用现有版本1.0.1。go get -u 将不会获得版本2.0.0。<br>如果想使用v2.0.0,代码改成如下：</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"fmt"</span>
+    <span class="token string">"github.com/jacksonyoudi/gomodone/v2"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	g<span class="token punctuation">,</span> err <span class="token operator">:=</span> gomodone<span class="token punctuation">.</span><span class="token function">SayHi</span><span class="token punctuation">(</span><span class="token string">"Roberto"</span><span class="token punctuation">,</span> <span class="token string">"pt"</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token function">panic</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>g<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>执行 go mod tidy</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go: finding module <span class="token keyword">for</span> package github.com/jacksonyoudi/gomodone/v2
+go: downloading github.com/jacksonyoudi/gomodone/v2 v2.0.0
+go: found github.com/jacksonyoudi/gomodone/v2 <span class="token keyword">in</span> github.com/jacksonyoudi/gomodone/v2 v2.0.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>当然，两个版本都可以同时使用, 使用别名<br>如下：</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"fmt"</span>
+	<span class="token string">"github.com/jacksonyoudi/gomodone"</span>
+	mv2 <span class="token string">"github.com/jacksonyoudi/gomodone/v2"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	g<span class="token punctuation">,</span> err <span class="token operator">:=</span> mv2<span class="token punctuation">.</span><span class="token function">SayHi</span><span class="token punctuation">(</span><span class="token string">"Roberto"</span><span class="token punctuation">,</span> <span class="token string">"pt"</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token function">panic</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>g<span class="token punctuation">)</span>
+
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>gomodone<span class="token punctuation">.</span><span class="token function">SayHi</span><span class="token punctuation">(</span><span class="token string">"Roberto"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>执行一下 <code>go mod tidy</code></p>
+<h3 id="Vendoring"><a href="#Vendoring" class="headerlink" title="Vendoring"></a>Vendoring</h3><p>默认是忽略vendor的，如果想在项目目录下有vendor可以执行下面命令</p>
+<pre class="line-numbers language-none"><code class="language-none">$go vendor<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>当然，如果构建程序的时候，希望使用vendor中的依赖，</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">$ <span class="token keyword">go</span> build <span class="token operator">-</span>mod vendor<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+<h3 id="IDEA下开发GO"><a href="#IDEA下开发GO" class="headerlink" title="IDEA下开发GO"></a>IDEA下开发GO</h3><ol>
+<li>创建go项目</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/IqR0yI.jpg"></p>
+<ol start="2">
+<li><p>创建完项目，会自动生成go mod文件<br>如果需要修改，可以手动修改，加入git等操作</p>
+</li>
+<li><p>写业务逻辑代码</p>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/ZNN4tE.jpg"><br>4. 解决依赖，更新go.mod</p>
+<p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/CxoGM9.jpg"></p>
+<ol start="5">
+<li>go build</li>
+</ol>
+]]></content>
       <categories>
-          
-          <category> iterm </category>
-          
+        <category>go</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> mac </tag>
-            
-            <tag> zsh </tag>
-            
-            <tag> powerlevel10k </tag>
-            
-            <tag> dracula </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>go mod使用</title>
-      <link href="/2021/07/31/go-mod-use/"/>
-      <url>/2021/07/31/go-mod-use/</url>
-      
-        <content type="html"><![CDATA[<p>最近由于换工作，开始交接工作。整理以前的工作内容，由于组内就我一个在做go和大数据。 所以开发没有规划，当时是怎么快怎么来。go也是使用最传统的go path的方式管理的。都是手动管理依赖的。现在交接给他人，需要多人开发，发现很多问题。比如版本问题，各种依赖的问题等等。</p><p>由于工作原因，几乎所有主流语言都写过。所以，对应语言包管理工具也都了解和使用过。我前面有写过maven的使用。<br>maven是使用过的功能最强大的包管理工具了，maven定位是项目管理工具。pip和npm都是及格的产品。</p><p>我个人觉得，一个包管理工具应该有以下功能：</p><h3 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h3><ol><li>依赖管理</li><li>依赖包版本控制</li><li>对应的包管理平台</li><li>可以私有化部署</li></ol><p>加分：<br>5. 代码包是否可以复用<br>6. 构建，测试,打包<br>7. 发布上线</p><p>对比上面几点：<br>目前做的最好的也就 maven了，gradle没有使用过，不知道。</p><p>今天主角是go mod，先来谈谈没有使用go mod之前的问题。</p><h3 id="使用go-path问题"><a href="#使用go-path问题" class="headerlink" title="使用go path问题"></a>使用go path问题</h3><ol><li>代码开发必须在go path src目录下，不然，就有问题。</li><li>依赖手动管理</li><li>依赖包没有版本可言</li></ol><p>从这个看， go path不算包管理工具</p><h3 id="govendor"><a href="#govendor" class="headerlink" title="govendor"></a>govendor</h3><ol><li>解决了包依赖，一个配置文件就管理</li><li>依赖包全都下载到项目vendor下，每个项目都把有一份。拉取项目时,开始怀疑人生。</li></ol><h3 id="go-mod介绍"><a href="#go-mod介绍" class="headerlink" title="go mod介绍"></a>go mod介绍</h3><p>go modules 是 golang 1.11 新加的特性。现在1.12 已经发布了，是时候用起来了。Modules官方定义为：</p><blockquote><p>模块是相关Go包的集合。modules是源代码交换和版本控制的单元。 go命令直接支持使用modules，包括记录和解析对其他模块的依赖性。modules替换旧的基于GOPATH的方法来指定在给定构建中使用哪些源文件。</p></blockquote><h3 id="如何使用go-mod"><a href="#如何使用go-mod" class="headerlink" title="如何使用go mod"></a>如何使用go mod</h3><p>首先，必须升级go到1.11,目前版本是1.14<br>下面我以我自己升级演示：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">### 卸载旧版本，删除对应文件</span>brew uninstall -f go<span class="token comment">### 更新一下brew</span>brew update<span class="token comment">### 安装go</span>brew <span class="token function">install</span> go<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>上面升级完了，使用 <code>go version</code>看下版本</p><pre class="line-numbers language-none"><code class="language-none">go version go1.14.1 darwin/amd64<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>下面设置go mod和go proxy</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go <span class="token function">env</span> -w <span class="token assign-left variable">GOBIN</span><span class="token operator">=</span>/Users/youdi/go/bingo <span class="token function">env</span> -w <span class="token assign-left variable">GO111MODULE</span><span class="token operator">=</span>ongo <span class="token function">env</span> -w <span class="token assign-left variable">GOPROXY</span><span class="token operator">=</span>https://goproxy.cn,direct // 使用七牛云的<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>注意： go env -w会将配置写到  <code>GOENV="/Users/youdi/Library/Application Support/go/env"</code></p><p>下面看下我的配置</p><pre class="line-numbers language-none"><code class="language-none">GO111MODULE="on"GOARCH="amd64"GOBIN="/Users/youdi/go/bin"GOCACHE="/Users/youdi/Library/Caches/go-build"GOENV="/Users/youdi/Library/Application Support/go/env"GOEXE=""GOFLAGS=""GOHOSTARCH="amd64"GOHOSTOS="darwin"GOINSECURE=""GONOPROXY=""GONOSUMDB=""GOOS="darwin"GOPATH="/Users/youdi/go"GOPRIVATE=""GOPROXY="https://goproxy.cn,direct"GOROOT="/usr/local/go"GOSUMDB="off"GOTMPDIR=""GOTOOLDIR="/usr/local/go/pkg/tool/darwin_amd64"GCCGO="gccgo"AR="ar"CC="clang"CXX="clang++"CGO_ENABLED="1"GOMOD="/dev/null"CGO_CFLAGS="-g -O2"CGO_CPPFLAGS=""CGO_CXXFLAGS="-g -O2"CGO_FFLAGS="-g -O2"CGO_LDFLAGS="-g -O2"PKG_CONFIG="pkg-config"GOGCCFLAGS="-fPIC -m64 -pthread -fno-caret-diagnostics -Qunused-arguments -fmessage-length=0 -fdebug-prefix-map=/var/folders/8m/v_1j4dgs7rzgqq4p_4_8k_nr0000gn/T/go-build221113671=/tmp/go-build -gno-record-gcc-switches -fno-common"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>我们看一下，我修改的内容</p><p>cat /Users/youdi/Library/Application Support/go/env</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token assign-left variable">GO111MODULE</span><span class="token operator">=</span>on<span class="token assign-left variable">GOBIN</span><span class="token operator">=</span>/Users/youdi/go/bin<span class="token assign-left variable">GOPROXY</span><span class="token operator">=</span>https://goproxy.cn,direct<span class="token assign-left variable">GOSUMDB</span><span class="token operator">=</span>off<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><h3 id="GO111MODULE"><a href="#GO111MODULE" class="headerlink" title="GO111MODULE"></a>GO111MODULE</h3><p>GO111MODULE 有三个值：off, on和auto（默认值）。</p><p>GO111MODULE=off，go命令行将不会支持module功能，寻找依赖包的方式将会沿用旧版本那种通过vendor目录或者GOPATH模式来查找。<br>GO111MODULE=on，go命令行会使用modules，而一点也不会去GOPATH目录下查找。<br>GO111MODULE=auto，默认值，go命令行将会根据当前目录来决定是否启用module功能。这种情况下可以分为两种情形：</p><pre><code>当前目录在GOPATH/src之外且该目录包含go.mod文件当前文件在包含go.mod文件的目录下面。</code></pre><p>当modules功能启用时，依赖包的存放位置变更为$GOPATH/pkg，允许同一个package多个版本并存，且多个项目可以共享缓存的 module</p><p>我们看下目录：</p><p>cd /Users/youdi/go/pkg</p><pre class="line-numbers language-none"><code class="language-none">├── darwin_amd64│&nbsp;&nbsp; ├── github.com│&nbsp;&nbsp; ├── go.etcd.io│&nbsp;&nbsp; ├── golang│&nbsp;&nbsp; ├── golang.org│&nbsp;&nbsp; ├── gopkg.in│&nbsp;&nbsp; ├── quickstart│&nbsp;&nbsp; └── uc.a├── mod│&nbsp;&nbsp; ├── cache│&nbsp;&nbsp; ├── github.com│&nbsp;&nbsp; ├── golang.org│&nbsp;&nbsp; ├── google.golang.org│&nbsp;&nbsp; └── gopkg.in└── sumdb    └── sum.golang.org<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h3 id="go-mod命令"><a href="#go-mod命令" class="headerlink" title="go mod命令"></a>go mod命令</h3><p>golang 提供了 <code>go mod</code>命令来管理包。</p><p>go help mod</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Go mod provides access to operations on modules.Note that support <span class="token keyword">for</span> modules is built into all the go commands,not just <span class="token string">'go mod'</span><span class="token builtin class-name">.</span> For example, day-to-day adding, removing, upgrading,and downgrading of dependencies should be <span class="token keyword">done</span> using <span class="token string">'go get'</span><span class="token builtin class-name">.</span>See <span class="token string">'go help modules'</span> <span class="token keyword">for</span> an overview of module functionality.Usage:go mod <span class="token operator">&lt;</span>command<span class="token operator">&gt;</span> <span class="token punctuation">[</span>arguments<span class="token punctuation">]</span>The commands are:download    download modules to <span class="token builtin class-name">local</span> cacheedit        edit go.mod from tools or scriptsgraph       print module requirement graphinit        initialize new module <span class="token keyword">in</span> current directorytidy        <span class="token function">add</span> missing and remove unused modulesvendor      <span class="token function">make</span> vendored copy of dependenciesverify      verify dependencies have expected contentwhy         explain why packages or modules are neededUse <span class="token string">"go help mod &lt;command&gt;"</span> <span class="token keyword">for</span> <span class="token function">more</span> information about a command.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>go mod 有以下命令：</p><table><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>download</td><td>download modules to local cache(下载依赖包)</td></tr><tr><td>edit</td><td>edit go.mod from tools or scripts（编辑go.mod)</td></tr><tr><td>graph</td><td>print module requirement graph (打印模块依赖图)</td></tr><tr><td>verify</td><td>initialize new module in current directory（在当前目录初始化mod）</td></tr><tr><td>tidy</td><td>add missing and remove unused modules(拉取缺少的模块，移除不用的模块)</td></tr><tr><td>vendor</td><td>make vendored copy of dependencies(将依赖复制到vendor下)</td></tr><tr><td>verify</td><td>verify dependencies have expected content (验证依赖是否正确）</td></tr><tr><td>why</td><td>explain why packages or modules are needed(解释为什么需要依赖)</td></tr></tbody></table><p>比较常用的是 <code>init</code>,<code>tidy</code>, <code>edit</code></p><h3 id="使用go-mod管理一个新项目"><a href="#使用go-mod管理一个新项目" class="headerlink" title="使用go mod管理一个新项目"></a>使用go mod管理一个新项目</h3><h4 id="1-初始化项目"><a href="#1-初始化项目" class="headerlink" title="1. 初始化项目"></a>1. 初始化项目</h4><p>可以随便找一个目录创建项目，我使用习惯用IDEA进行创建</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mkdir</span> Gone<span class="token builtin class-name">cd</span> Gonego mod init Gone<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>查看一下 go.mod文件</p><pre class="line-numbers language-go" data-language="go"><code class="language-go">module Gone<span class="token keyword">go</span> <span class="token number">1.14</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>go.mod文件一旦创建后，它的内容将会被go toolchain全面掌控。go toolchain会在各类命令执行时，比如go get、go build、go mod等修改和维护go.mod文件。</p><p>go.mod 提供了module, require、replace和exclude 四个命令</p><ul><li><code>module</code> 语句指定包的名字（路径）</li><li><code>require</code> 语句指定的依赖项模块</li><li><code>replace</code> 语句可以替换依赖项模块</li><li><code>exclude</code> 语句可以忽略依赖项模块</li></ul><h4 id="2-添加依赖"><a href="#2-添加依赖" class="headerlink" title="2. 添加依赖"></a>2. 添加依赖</h4><p>创建 main.go文件</p><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main<span class="token keyword">import</span> <span class="token punctuation">(</span><span class="token string">"github.com/gin-gonic/gin"</span><span class="token punctuation">)</span><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>r <span class="token operator">:=</span> gin<span class="token punctuation">.</span><span class="token function">Default</span><span class="token punctuation">(</span><span class="token punctuation">)</span>r<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span><span class="token string">"/ping"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span>c<span class="token punctuation">.</span><span class="token function">JSON</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> gin<span class="token punctuation">.</span>H<span class="token punctuation">{</span><span class="token string">"message"</span><span class="token punctuation">:</span> <span class="token string">"pong"</span><span class="token punctuation">,</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">)</span>r<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>执行 go run main.go 运行代码会发现 go mod 会自动查找依赖自动下载<br>再查看 <code>go.mod</code></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">module Gonego <span class="token number">1.14</span>require github.com/gin-gonic/gin v1.6.3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>go module 安装 package 的原則是先拉最新的 release tag，若无tag则拉最新的commit</p><p>go 会自动生成一个 go.sum 文件来记录 dependency tree</p><p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/JhSGHb.jpg"></p><p>再次执行脚本 go run main.go发现跳过了检查并安装依赖的步骤。</p><p>可以使用命令 go list -m -u all 来检查可以升级的package，使用go get -u need-upgrade-package 升级后会将新的依赖版本更新到go.mod * 也可以使用 go get -u 升级所有依赖</p><p>去mod包缓存下看看</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">/Users/youdi/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><h3 id="go-get升级"><a href="#go-get升级" class="headerlink" title="go get升级"></a>go get升级</h3><ul><li>运行 go get -u 将会升级到最新的次要版本或者修订版本(x.y.z, z是修订版本号， y是次要版本号)</li><li>运行 go get -u=patch 将会升级到最新的修订版本</li><li>运行 go get package@version 将会升级到指定的版本号version</li><li>运行go get如果有版本的更改，那么go.mod文件也会更改</li></ul><h3 id="使用replace替换无法直接获取的package"><a href="#使用replace替换无法直接获取的package" class="headerlink" title="使用replace替换无法直接获取的package"></a>使用replace替换无法直接获取的package</h3><p>由于某些已知的原因，并不是所有的package都能成功下载，比如：golang.org下的包。</p><p>modules 可以通过在 go.mod 文件中使用 replace 指令替换成github上对应的库，比如：</p><pre class="line-numbers language-go" data-language="go"><code class="language-go">replace <span class="token punctuation">(</span>golang<span class="token punctuation">.</span>org<span class="token operator">/</span>x<span class="token operator">/</span>crypto v0<span class="token punctuation">.</span><span class="token number">0.0</span><span class="token operator">-</span><span class="token number">20190313024323</span><span class="token operator">-</span>a1f597ede03a <span class="token operator">=</span><span class="token operator">&gt;</span> github<span class="token punctuation">.</span>com<span class="token operator">/</span>golang<span class="token operator">/</span>crypto v0<span class="token punctuation">.</span><span class="token number">0.0</span><span class="token operator">-</span><span class="token number">20190313024323</span><span class="token operator">-</span>a1f597ede03a<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><h3 id="go-mod发布和使用"><a href="#go-mod发布和使用" class="headerlink" title="go mod发布和使用"></a>go mod发布和使用</h3><p>参考Roberto Selbach写的go mod入门文章，文末，我给出链接</p><h3 id="Creating-a-Module"><a href="#Creating-a-Module" class="headerlink" title="Creating a Module"></a>Creating a Module</h3><p>如果你设置好go mod了，那你就可以在任何目录下随便创建</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token variable">$mkdir</span> gomodone<span class="token variable">$cd</span> gomodone<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>在这个目录下创建一个文件<code>say.go</code></p><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> gomodone<span class="token keyword">import</span> <span class="token string">"fmt"</span> <span class="token comment">// say Hi to someone</span><span class="token keyword">func</span> <span class="token function">SayHi</span><span class="token punctuation">(</span>name <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>   <span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"Hi, %s"</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>初始化一个 <code>go.mod</code>文件</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ go mod init github.com/jacksonyoudi/gomodonego: creating new go.mod: module github.com/jacksonyoudi/gomodone<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>查看 go.mod内容如下：</p><pre class="line-numbers language-go" data-language="go"><code class="language-go">github<span class="token punctuation">.</span>com<span class="token operator">/</span>jacksonyoudi<span class="token operator">/</span>gomodone<span class="token keyword">go</span> <span class="token number">1.14</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>下面我们要将这个module发布到github上，然后在另外一个程序使用</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token variable">$git</span> init<span class="token variable">$vim</span> .gitiiignore<span class="token variable">$git</span> commit -am <span class="token string">"init"</span>// github创建对应的repo<span class="token variable">$git</span> remote <span class="token function">add</span> origin git@github.com:jacksonyoudi/gomodone.git<span class="token variable">$git</span> push -u origin master<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>执行完，上面我们就相当于发布完了。</p><p>如果有人需要使用，就可以使用</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go get github.com/jacksonyoudi/gomodone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>这个时候没有加tag，所以，没有版本的控制。默认是v0.0.0后面接上时间和commitid。如下：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">gomodone@v0.0.0-20200517004046-ee882713fd1e<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>官方不建议这样做，没有进行版本控制管理。</p><h3 id="module-versioning"><a href="#module-versioning" class="headerlink" title="module versioning"></a>module versioning</h3><p>使用tag，进行版本控制</p><h4 id="making-a-release"><a href="#making-a-release" class="headerlink" title="making a release"></a>making a release</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> tag v1.0.0<span class="token function">git</span> push --tags<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>操作完，我们的module就发布了一个v1.0.0的版本了。</p><p>推荐在这个状态下，再切出一个分支，用于后续v1.0.0的修复推送,不要直接在master分支修复</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token variable">$git</span> checkout -b v1<span class="token variable">$git</span> push -u origin v1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><h3 id="use-our-module"><a href="#use-our-module" class="headerlink" title="use our module"></a>use our module</h3><p>上面已经发布了一个v1.0.0的版本，我们可以在另一个项目中使用，创建一个go的项目</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token variable">$mkdir</span> Gone<span class="token variable">$cd</span> Gone<span class="token variable">$vim</span> main.go<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main<span class="token keyword">import</span> <span class="token punctuation">(</span><span class="token string">"fmt"</span><span class="token string">"github.com/jacksonyoudi/gomodone"</span><span class="token punctuation">)</span><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>gomodone<span class="token punctuation">.</span><span class="token function">SayHi</span><span class="token punctuation">(</span><span class="token string">"Roberto"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>代码写好了，我们生成 go mod文件</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go mod init Gone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>上面命令执行完，会生成 go mod文件<br>看下mod文件：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">module Gonego <span class="token number">1.14</span>require <span class="token punctuation">(</span>github.com/jacksonyoudi/gomodone v1.0.0<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token variable">$go</span> mod tidygo: finding module <span class="token keyword">for</span> package github.com/jacksonyoudi/gomodonego: found github.com/jacksonyoudi/gomodone <span class="token keyword">in</span> github.com/jacksonyoudi/gomodone v1.0.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>同时还生成了go.sum, 其中包含软件包的哈希值，以确保我们具有正确的版本和文件。</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">github.com/jacksonyoudi/gomodone v1.0.1 h1:jFd+qZlAB0R3zqrC9kwO8IgPrAdayMUS0rSHMDc/uG8<span class="token operator">=</span>github.com/jacksonyoudi/gomodone v1.0.1/go.mod h1:XWi+BLbuiuC2YM8Qz4yQzTSPtHt3T3hrlNN2pNlyA94<span class="token operator">=</span>github.com/jacksonyoudi/gomodone/v2 v2.0.0 h1:GpzGeXCx/Xv2ueiZJ8hEhFwLu7xjxLBjkOYSmg8Ya/w<span class="token operator">=</span>github.com/jacksonyoudi/gomodone/v2 v2.0.0/go.mod h1:L8uFPSZNHoAhpaePWUfKmGinjufYdw9c2i70xtBorSw<span class="token operator">=</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p>这个内容是下面的，需要操作执行的结果</p><p>go run main.go就可以运行了</p><h3 id="Making-a-bugfix-release"><a href="#Making-a-bugfix-release" class="headerlink" title="Making a bugfix release"></a>Making a bugfix release</h3><p>假如fix一个bug,我们在v1版本上进行修复</p><p>修改代码如下：</p><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// say Hi to someone</span><span class="token keyword">func</span> <span class="token function">SayHi</span><span class="token punctuation">(</span>name <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span><span class="token operator">-</span>       <span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"Hi, %s"</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token operator">+</span>       <span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"Hi, %s!"</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>修复好，我们开始push</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">git</span> commit -m <span class="token string">"Emphasize our friendliness"</span> say.go$ <span class="token function">git</span> tag v1.0.1$ <span class="token function">git</span> push --tags origin v1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><h4 id="Updating-modules"><a href="#Updating-modules" class="headerlink" title="Updating modules"></a>Updating modules</h4><p>刚才fix bug，所以要在我们使用项目中更新</p><p>这个需要我们手动执行更新module操作</p><p>我们通过使用我们的好朋友来做到这一点go get：</p><ul><li>运行  <code>go get -u</code> 以使用最新的  minor  版本或修补程序版本（即它将从1.0.0更新到例如1.0.1，或者，如果可用，则更新为1.1.0）</li><li>运行  go get -u=patch 以使用最新的  修补程序  版本（即，将更新为1.0.1但不更新  为1.1.0）</li><li>运行go get package@version 以更新到特定版本（例如github.com/jacksonyoudi/<a href="mailto:gomodone@v1.0.1">gomodone@v1.0.1</a>）</li></ul><p>目前module最新的也是v1.0.1</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">// 更新最新<span class="token variable">$go</span> get -u<span class="token variable">$go</span> get -u<span class="token operator">=</span>patch//指定包，指定版本<span class="token variable">$go</span> get github.com/jacksonyoudi/gomodone@v1.0.1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>操作完，go.mod文件会修改如下:</p><pre class="line-numbers language-go" data-language="go"><code class="language-go">module Gone<span class="token keyword">go</span> <span class="token number">1.14</span>require <span class="token punctuation">(</span>github<span class="token punctuation">.</span>com<span class="token operator">/</span>jacksonyoudi<span class="token operator">/</span>gomodone v1<span class="token punctuation">.</span><span class="token number">0.1</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h4 id="Major-versions"><a href="#Major-versions" class="headerlink" title="Major versions"></a>Major versions</h4><p>根据语义版本语义，主要版本与次要版本  不同。主要版本可能会破坏向后兼容性。从Go模块的角度来看，主要版本是  完全不同的软件包。乍一看这听起来很奇怪，但这是有道理的：两个不兼容的库版本是两个不同的库。<br>比如下面修改，完全破坏了兼容性。</p><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> gomodone<span class="token keyword">import</span> <span class="token punctuation">(</span><span class="token string">"errors"</span><span class="token string">"fmt"</span><span class="token punctuation">)</span><span class="token comment">// Hi returns a friendly greeting</span><span class="token comment">// Hi returns a friendly greeting in language lang</span><span class="token keyword">func</span> <span class="token function">SayHi</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> lang <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token keyword">switch</span> lang <span class="token punctuation">{</span><span class="token keyword">case</span> <span class="token string">"en"</span><span class="token punctuation">:</span><span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"Hi, %s!"</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token keyword">case</span> <span class="token string">"pt"</span><span class="token punctuation">:</span><span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"Oi, %s!"</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token keyword">case</span> <span class="token string">"es"</span><span class="token punctuation">:</span><span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"¡Hola, %s!"</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token keyword">case</span> <span class="token string">"fr"</span><span class="token punctuation">:</span><span class="token keyword">return</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"Bonjour, %s!"</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token keyword">default</span><span class="token punctuation">:</span><span class="token keyword">return</span> <span class="token string">""</span><span class="token punctuation">,</span> errors<span class="token punctuation">.</span><span class="token function">New</span><span class="token punctuation">(</span><span class="token string">"unknown language"</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>如上，我们需要不同的大版本，这种情况下</p><p>修改 go.mod如下</p><pre class="line-numbers language-go" data-language="go"><code class="language-go">module github<span class="token punctuation">.</span>com<span class="token operator">/</span>jacksonyoudi<span class="token operator">/</span>gomodone<span class="token operator">/</span>v2<span class="token keyword">go</span> <span class="token number">1.14</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>然后，重新tag，push</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">git</span> commit say.go -m <span class="token string">"Change Hi to allow multilang"</span>$ <span class="token function">git</span> checkout -b v2 <span class="token comment"># 用于v2版本，后续修复v2</span>$ <span class="token function">git</span> commit go.mod -m <span class="token string">"Bump version to v2"</span>$ <span class="token function">git</span> tag v2.0.0$ <span class="token function">git</span> push --tags origin v2 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><h3 id="Updating-to-a-major-version"><a href="#Updating-to-a-major-version" class="headerlink" title="Updating to a major version"></a>Updating to a major version</h3><p>即使发布了库的新不兼容版本，现有软件 也不会中断，因为它将继续使用现有版本1.0.1。go get -u 将不会获得版本2.0.0。<br>如果想使用v2.0.0,代码改成如下：</p><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main<span class="token keyword">import</span> <span class="token punctuation">(</span><span class="token string">"fmt"</span>    <span class="token string">"github.com/jacksonyoudi/gomodone/v2"</span><span class="token punctuation">)</span><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>g<span class="token punctuation">,</span> err <span class="token operator">:=</span> gomodone<span class="token punctuation">.</span><span class="token function">SayHi</span><span class="token punctuation">(</span><span class="token string">"Roberto"</span><span class="token punctuation">,</span> <span class="token string">"pt"</span><span class="token punctuation">)</span><span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span><span class="token function">panic</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">}</span>fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>g<span class="token punctuation">)</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>执行 go mod tidy</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go: finding module <span class="token keyword">for</span> package github.com/jacksonyoudi/gomodone/v2go: downloading github.com/jacksonyoudi/gomodone/v2 v2.0.0go: found github.com/jacksonyoudi/gomodone/v2 <span class="token keyword">in</span> github.com/jacksonyoudi/gomodone/v2 v2.0.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>当然，两个版本都可以同时使用, 使用别名<br>如下：</p><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main<span class="token keyword">import</span> <span class="token punctuation">(</span><span class="token string">"fmt"</span><span class="token string">"github.com/jacksonyoudi/gomodone"</span>mv2 <span class="token string">"github.com/jacksonyoudi/gomodone/v2"</span><span class="token punctuation">)</span><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>g<span class="token punctuation">,</span> err <span class="token operator">:=</span> mv2<span class="token punctuation">.</span><span class="token function">SayHi</span><span class="token punctuation">(</span><span class="token string">"Roberto"</span><span class="token punctuation">,</span> <span class="token string">"pt"</span><span class="token punctuation">)</span><span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span><span class="token function">panic</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">}</span>fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>g<span class="token punctuation">)</span>fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>gomodone<span class="token punctuation">.</span><span class="token function">SayHi</span><span class="token punctuation">(</span><span class="token string">"Roberto"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>执行一下 <code>go mod tidy</code></p><h3 id="Vendoring"><a href="#Vendoring" class="headerlink" title="Vendoring"></a>Vendoring</h3><p>默认是忽略vendor的，如果想在项目目录下有vendor可以执行下面命令</p><pre class="line-numbers language-none"><code class="language-none">$go vendor<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>当然，如果构建程序的时候，希望使用vendor中的依赖，</p><pre class="line-numbers language-go" data-language="go"><code class="language-go">$ <span class="token keyword">go</span> build <span class="token operator">-</span>mod vendor<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><h3 id="IDEA下开发GO"><a href="#IDEA下开发GO" class="headerlink" title="IDEA下开发GO"></a>IDEA下开发GO</h3><ol><li>创建go项目</li></ol><p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/IqR0yI.jpg"></p><ol start="2"><li><p>创建完项目，会自动生成go mod文件<br>如果需要修改，可以手动修改，加入git等操作</p></li><li><p>写业务逻辑代码</p></li></ol><p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/ZNN4tE.jpg"><br>4. 解决依赖，更新go.mod</p><p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/CxoGM9.jpg"></p><ol start="5"><li>go build</li></ol>]]></content>
-      
-      
+      <tags>
+        <tag>go</tag>
+        <tag>tool</tag>
+        <tag>language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>(效率工具)程序员必备终端及美化</title>
+    <url>/2021/07/31/iterm/</url>
+    <content><![CDATA[<p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/QicdYL.jpg"></p>
+<p>作为一个合格的程序员，CLI是必备的技能。 工欲善其事，必先利其器。一个顺手并且提高效率的终端是必须的。 平时很多人会私信或评论中问我关于我的终端相关的内容，今天我整理出来。分享给大家。</p>
+<h4 id="需要安装的软件"><a href="#需要安装的软件" class="headerlink" title="需要安装的软件"></a>需要安装的软件</h4><blockquote>
+<ol>
+<li>iterm2</li>
+<li>dracula</li>
+<li>zsh</li>
+<li>Oh My ZSH</li>
+<li>powerlevel10k</li>
+</ol>
+</blockquote>
+<p>上面👆给出了需要安装的软件包， 下面就按安装的顺序一个一个介绍</p>
+<h3 id="一、iterm2"><a href="#一、iterm2" class="headerlink" title="一、iterm2"></a>一、iterm2</h3><p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/Wbh9jA.jpg"></p>
+<p>这个就不多介绍， 我相信只要是使用mac的程序员，这个都是知道的， 当然，也有一个其他类似的产品。 后面安装的和iterm2没有强依赖。 这只是一个终端， 没有最好，适合你的就是最好的。 顺便提一下， 我自己的💻使用touch bar的， 是支持touch bar，一些很炫的操作可以在touch bar上操作。但是，我一直使用公司的笔记本，使用快捷键进行操作， 效率更高。</p>
+<p><a href="https://www.iterm2.com/">官网</a></p>
+<h4 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h4><p>1). 方式一<br><a href="https://www.iterm2.com/downloads.html">下载地址</a>， 下载后，点击安装就可以了</p>
+<p>2). 方式二</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">brew cask <span class="token function">install</span> iterm2   <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>brew使用，这里就不介绍了</p>
+<h4 id="2-使用"><a href="#2-使用" class="headerlink" title="2. 使用"></a>2. 使用</h4><p><a href="https://www.iterm2.com/documentation.html">文档</a><br>这里顺便介绍一下，主要是快捷键, 自己对着文档，学习一下， 因为重点不在这。<br><code>CMD + 单击</code> 可以实现跳转</p>
+<h3 id="二、-安装配置dracula主题"><a href="#二、-安装配置dracula主题" class="headerlink" title="二、 安装配置dracula主题"></a>二、 安装配置dracula主题</h3><p>这个也有两种方式</p>
+<ol>
+<li>使用git<br><code>git clone https://github.com/dracula/iterm.git</code></li>
+<li>直接下载，解压<br>下载地址 <a href="https://github.com/dracula/iterm/archive/master.zip">GitHub .zip download</a></li>
+</ol>
+<p><em>使用主题</em><br>配置过程如下</p>
+<blockquote>
+<ol>
+<li>打开 iTerm2 &gt; Preferences &gt; Profiles &gt; Colors Tab， 选择color</li>
+<li>点击下面的<code>Color Presets</code>,展开</li>
+<li>选择<code>import</code>, 将上面👆下载的文件导入</li>
+<li>选择<code>Dracula.itermcolors</code>文件导入</li>
+<li>导入以后，重新选择 <code>Color Presets</code>，选择 <code>dracula</code>就可以了<br> 具体如下：<br> <img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/FLOTC9.jpg"></li>
+</ol>
+</blockquote>
+<h3 id="三、Oh-My-ZSH"><a href="#三、Oh-My-ZSH" class="headerlink" title="三、Oh My ZSH"></a>三、Oh My ZSH</h3><p><a href="%5Bhttps://ohmyz.sh/%5D(https://ohmyz.sh/)">Oh My ZSH</a><br><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/1zZOJy.jpg"></p>
+<ol>
+<li><p>先安装 zsh<br>下面只给命令</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">
+<span class="token comment"># 安装</span>
+brew <span class="token function">install</span> <span class="token function">zsh</span> zsh-completions
+
+<span class="token comment"># 切换shell</span>
+chsh -s /bin/zsh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>安装Oh My ZSH<br>下面选一种</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sh</span> -c <span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token function">curl</span> -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh<span class="token variable">)</span></span>"</span>
+<span class="token comment"># or</span>
+<span class="token function">sh</span> -c <span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token function">wget</span> https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -<span class="token variable">)</span></span>"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>如果感兴趣，可以看下脚本内容，定义了安装目录什么的，和常见的安装shell没有区别。</p>
+</li>
+<li><p>关闭iterm2, 然后再打开，就生效了</p>
+</li>
+<li><p>配置 一个插件<br>配置在 <code>.zshrc</code>文件中，配置很简单<br>可以使用的插件以及描述 <a href="https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins">github</a></p>
+</li>
+</ol>
+<h3 id="四、powerlevel10k"><a href="#四、powerlevel10k" class="headerlink" title="四、powerlevel10k"></a>四、powerlevel10k</h3><p><a href="https://github.com/romkatv/powerlevel10k">github地址</a></p>
+<p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/DUuyUe.jpg"></p>
+<ol>
+<li>安装主题<br>也有很多种方式， 这里使用git<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone --depth<span class="token operator">=</span><span class="token number">1</span> https://github.com/romkatv/powerlevel10k.git <span class="token variable">${ZSH_CUSTOM<span class="token operator">:-</span>$HOME<span class="token operator">/</span>.oh-my-zsh<span class="token operator">/</span>custom}</span>/themes/powerlevel10k<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+在 <code>.zshrc</code>中配置主题生效，退出， 就可以生效<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token assign-left variable">ZSH_THEME</span><span class="token operator">=</span><span class="token string">"powerlevel10k/powerlevel10k"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+如果你还没有安装字体，那么可以使用下面的命令来安装所需字体。<br>一些需要字体安装的文档 <a href="https://github.com/bhilburn/powerlevel9k/wiki/Install-Instructions#step-2-install-a-powerline-font">install-a-powerline-font</a><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># clone</span>
+<span class="token function">git</span> clone https://github.com/powerline/fonts.git
+<span class="token comment"># install</span>
+<span class="token builtin class-name">cd</span> fonts
+./install.sh
+<span class="token comment"># clean-up a bit</span>
+<span class="token builtin class-name">cd</span> <span class="token punctuation">..</span>
+<span class="token function">rm</span> -rf fonts<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<p>字体安装完毕之后，打开 Shell 你会发现字体依然没有生效，这是因为你没有选择对应的字体。在设置中选择你想要的支持字体。<br>如果有一些特殊的图标不能正常显示， 可能需要安装 <a href="https://github.com/gabrielelana/awesome-terminal-fonts">awesome-terminal-fonts</a>字体</p>
+<p>还有一些图标，比如github,gitlab, git,linux的一些图标在<code>/Users/youdi/.oh-my-zsh/custom/themes/powerlevel9k/functions/icons.zsh</code>中修改。</p>
+<p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/Mob8Xk.jpg"></p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>我使用 <code>colorls</code>,是ruby的的工具,<br><a href="%5Bhttps://github.com/athityakumar/colorls%5D(https://github.com/athityakumar/colorls)">安装</a><br><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/vjJGRU.jpg"></p>
+<p>另外一个查看性能的工具 <code>gotop</code>, 你肯定用过 <code>top</code>,<code>htop</code><br><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/8cEKLj.jpg"></p>
+<p><a href="%5Bhttps://github.com/cjbassi/gotop%5D(https://github.com/cjbassi/gotop)">源码</a>, 类似的 top的工具很多，各个语言版本的都有， 我比较喜欢编译型语言的版本。</p>
+]]></content>
       <categories>
-          
-          <category> go </category>
-          
+        <category>iterm</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> go </tag>
-            
-            <tag> tool </tag>
-            
-            <tag> language </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Hello World</title>
-      <link href="/2021/07/31/hello-world/"/>
-      <url>/2021/07/31/hello-world/</url>
-      
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-  
-  
+      <tags>
+        <tag>mac</tag>
+        <tag>zsh</tag>
+        <tag>powerlevel10k</tag>
+        <tag>dracula</tag>
+      </tags>
+  </entry>
 </search>

@@ -9,7 +9,11 @@ coverImg: https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/YDsDmh
 toc: true
 mathjax: false
 summary: 本文很细致的介绍go mod使用，一步一步带你完全掌握go mod，深入学习
-categories: go
+keywords:
+-  go
+- tool
+- language
+categories: 技术
 tags:
 -  go
 - tool

@@ -9,7 +9,14 @@ coverImg: https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/1zZOJy
 toc: true
 mathjax: false
 summary: mac下终端工具iterm2 + oh my zsh + powerlevel10k
-categories: iterm
+categories: 
+- 工具
+keywords:
+-  mac
+-  zsh
+- powerlevel10k
+- dracula
+
 tags:
 -  mac
 -  zsh
