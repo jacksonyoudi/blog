@@ -1,0 +1,1759 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="go,colly,爬虫,crawler">
+    <meta name="description" content="简单童真">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>go爬虫框架colly源码以及软件架构分析 | JacksonYoudi</title>
+    <link rel="icon" type="image/png" href="/medias/mj-moon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/mj-moon.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">JacksonYoudi</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/mj-moon.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">JacksonYoudi</div>
+        <div class="logo-desc">
+            
+            简单童真
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/jacksonyoudi" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/jacksonyoudi" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/RYdTI7.png')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">go爬虫框架colly源码以及软件架构分析</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/crawler/">
+                                <span class="chip bg-color">crawler</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%88%AC%E8%99%AB/">
+                                <span class="chip bg-color">爬虫</span>
+                            </a>
+                        
+                            <a href="/tags/go/">
+                                <span class="chip bg-color">go</span>
+                            </a>
+                        
+                            <a href="/tags/colly/">
+                                <span class="chip bg-color">colly</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%8A%80%E6%9C%AF/" class="post-category">
+                                技术
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-08-01
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/6hvTNM.jpg"></p>
+<p>无意中发现了<code>colly</code>,我一直是使用python进行爬虫的， 学习golang的使用， 用<code>go</code>参考<code>scrapy</code>架构写了一个爬虫的框架demo。我一直以为go不适合做爬虫， go的领域是后端服务。然后去搜索了一下<code>colly</code>, 发现还是很流行。 我个人还是比较喜欢爬虫， 网络上的数据就是公开的API， 所以， 爬虫去请求接口获取数据。当然我是遵循君子协议的。</p>
+<p>好， 下面进入正题，介绍<code>colly</code></p>
+<h3 id="colly介绍"><a href="#colly介绍" class="headerlink" title="colly介绍"></a>colly介绍</h3><p><code>Lightning Fast and Elegant Scraping Framework for Gophers</code></p>
+<p><code>Colly provides a clean interface to write any kind of crawler/scraper/spider.</code><br>官方的介绍，gocolly快速优雅，在单核上每秒可以发起1K以上请求；以回调函数的形式提供了一组接口，可以实现任意类型的爬虫；依赖goquery库可以像jquery一样选择web元素。</p>
+<h3 id="安装使用"><a href="#安装使用" class="headerlink" title="安装使用"></a>安装使用</h3><p><a target="_blank" rel="noopener" href="https://github.com/gocolly/colly">colly</a><br><a target="_blank" rel="noopener" href="http://go-colly.org/">官网</a></p>
+<pre class="line-numbers language-none"><code class="language-none">go get -u github.com/gocolly/colly/...<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">import</span> <span class="token string">"github.com/gocolly/colly"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h3 id="架构特点"><a href="#架构特点" class="headerlink" title="架构特点"></a>架构特点</h3><p>了解爬虫的都知道一个爬虫请求的生命周期</p>
+<blockquote>
+<ol>
+<li>构建请求</li>
+<li>发送请求</li>
+<li>获取文档或数据</li>
+<li>解析文档或清洗数据</li>
+<li>数据处理或持久化</li>
+</ol>
+</blockquote>
+<p>scrapy的设计理念是将上面的每一个步骤抽离出来，然后做出组件的形式， 最后通过调度组成流水线的工作形式。<br>我们看一下scrapy的架构图， 这里只是简单的介绍下， 后面有时间，我深入介绍scrapy<br><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/0kfy9f.jpg" alt="0kfy9f"></p>
+<p>如图，<code>downloader</code>负责请求获取页面，<code>spiders</code>中写具体解析文档的逻辑，<code>item PipeLine</code>数据最后处理， 中间有一些中间件，可以一些功能的装饰。比如，代理，请求频率等。</p>
+<p>我们介绍一下colly的架构特点<br>colly的逻辑更像是面向过程编程的， colly的逻辑就是按上面生命周期的顺序管道处理， 只是在不同阶段，加上回调函数进行过滤的时候进行处理。<br><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/IS4YSc.jpg"></p>
+<p>下面也按照这个逻辑进行介绍</p>
+<h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><p>先给一个🌰</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">
+<span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"fmt"</span>
+
+	<span class="token string">"github.com/gocolly/colly"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// Instantiate default collector</span>
+	c <span class="token operator">:=</span> colly<span class="token punctuation">.</span><span class="token function">NewCollector</span><span class="token punctuation">(</span>
+		<span class="token comment">// Visit only domains: hackerspaces.org, wiki.hackerspaces.org</span>
+		colly<span class="token punctuation">.</span><span class="token function">AllowedDomains</span><span class="token punctuation">(</span><span class="token string">"hackerspaces.org"</span><span class="token punctuation">,</span> <span class="token string">"wiki.hackerspaces.org"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	<span class="token punctuation">)</span>
+
+	<span class="token comment">// On every a element which has href attribute call callback</span>
+	c<span class="token punctuation">.</span><span class="token function">OnHTML</span><span class="token punctuation">(</span><span class="token string">"a[href]"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>e <span class="token operator">*</span>colly<span class="token punctuation">.</span>HTMLElement<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		link <span class="token operator">:=</span> e<span class="token punctuation">.</span><span class="token function">Attr</span><span class="token punctuation">(</span><span class="token string">"href"</span><span class="token punctuation">)</span>
+		<span class="token comment">// Print link</span>
+		fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"Link found: %q -&gt; %s\n"</span><span class="token punctuation">,</span> e<span class="token punctuation">.</span>Text<span class="token punctuation">,</span> link<span class="token punctuation">)</span>
+		<span class="token comment">// Visit link found on page</span>
+		<span class="token comment">// Only those links are visited which are in AllowedDomains</span>
+		c<span class="token punctuation">.</span><span class="token function">Visit</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>Request<span class="token punctuation">.</span><span class="token function">AbsoluteURL</span><span class="token punctuation">(</span>link<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+	<span class="token comment">// Before making a request print "Visiting ..."</span>
+	c<span class="token punctuation">.</span><span class="token function">OnRequest</span><span class="token punctuation">(</span><span class="token keyword">func</span><span class="token punctuation">(</span>r <span class="token operator">*</span>colly<span class="token punctuation">.</span>Request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Visiting"</span><span class="token punctuation">,</span> r<span class="token punctuation">.</span>URL<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+	<span class="token comment">// Start scraping on https://hackerspaces.org</span>
+	c<span class="token punctuation">.</span><span class="token function">Visit</span><span class="token punctuation">(</span><span class="token string">"https://hackerspaces.org/"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这是官方给的示例， 可以看到<code>colly.NewCollector</code>创建一个<code>收集器</code>， colly的所有处理逻辑都是以<code>Collector</code>为核心进行操作的。</p>
+<p>我们看一下 <code>Collector</code>结构体的定义</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// Collector provides the scraper instance for a scraping job</span>
+<span class="token keyword">type</span> Collector <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+	<span class="token comment">// UserAgent is the User-Agent string used by HTTP requests</span>
+	UserAgent <span class="token builtin">string</span>
+	<span class="token comment">// MaxDepth limits the recursion depth of visited URLs.</span>
+	<span class="token comment">// Set it to 0 for infinite recursion (default).</span>
+	MaxDepth <span class="token builtin">int</span>
+	<span class="token comment">// AllowedDomains is a domain whitelist.</span>
+	<span class="token comment">// Leave it blank to allow any domains to be visited</span>
+	AllowedDomains <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span>
+	<span class="token comment">// DisallowedDomains is a domain blacklist.</span>
+	DisallowedDomains <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span>
+	<span class="token comment">// DisallowedURLFilters is a list of regular expressions which restricts</span>
+	<span class="token comment">// visiting URLs. If any of the rules matches to a URL the</span>
+	<span class="token comment">// request will be stopped. DisallowedURLFilters will</span>
+	<span class="token comment">// be evaluated before URLFilters</span>
+	<span class="token comment">// Leave it blank to allow any URLs to be visited</span>
+	DisallowedURLFilters <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>regexp<span class="token punctuation">.</span>Regexp
+	<span class="token comment">// URLFilters is a list of regular expressions which restricts</span>
+	<span class="token comment">// visiting URLs. If any of the rules matches to a URL the</span>
+	<span class="token comment">// request won't be stopped. DisallowedURLFilters will</span>
+	<span class="token comment">// be evaluated before URLFilters</span>
+
+	<span class="token comment">// Leave it blank to allow any URLs to be visited</span>
+	URLFilters <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>regexp<span class="token punctuation">.</span>Regexp
+
+	<span class="token comment">// AllowURLRevisit allows multiple downloads of the same URL</span>
+	AllowURLRevisit <span class="token builtin">bool</span>
+	<span class="token comment">// MaxBodySize is the limit of the retrieved response body in bytes.</span>
+	<span class="token comment">// 0 means unlimited.</span>
+	<span class="token comment">// The default value for MaxBodySize is 10MB (10 * 1024 * 1024 bytes).</span>
+	MaxBodySize <span class="token builtin">int</span>
+	<span class="token comment">// CacheDir specifies a location where GET requests are cached as files.</span>
+	<span class="token comment">// When it's not defined, caching is disabled.</span>
+	CacheDir <span class="token builtin">string</span>
+	<span class="token comment">// IgnoreRobotsTxt allows the Collector to ignore any restrictions set by</span>
+	<span class="token comment">// the target host's robots.txt file.  See http://www.robotstxt.org/ for more</span>
+	<span class="token comment">// information.</span>
+	IgnoreRobotsTxt <span class="token builtin">bool</span>
+	<span class="token comment">// Async turns on asynchronous network communication. Use Collector.Wait() to</span>
+	<span class="token comment">// be sure all requests have been finished.</span>
+	Async <span class="token builtin">bool</span>
+	<span class="token comment">// ParseHTTPErrorResponse allows parsing HTTP responses with non 2xx status codes.</span>
+	<span class="token comment">// By default, Colly parses only successful HTTP responses. Set ParseHTTPErrorResponse</span>
+	<span class="token comment">// to true to enable it.</span>
+	ParseHTTPErrorResponse <span class="token builtin">bool</span>
+	<span class="token comment">// ID is the unique identifier of a collector</span>
+	ID <span class="token builtin">uint32</span>
+	<span class="token comment">// DetectCharset can enable character encoding detection for non-utf8 response bodies</span>
+	<span class="token comment">// without explicit charset declaration. This feature uses https://github.com/saintfish/chardet</span>
+	DetectCharset <span class="token builtin">bool</span>
+	<span class="token comment">// RedirectHandler allows control on how a redirect will be managed</span>
+	RedirectHandler <span class="token keyword">func</span><span class="token punctuation">(</span>req <span class="token operator">*</span>http<span class="token punctuation">.</span>Request<span class="token punctuation">,</span> via <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>http<span class="token punctuation">.</span>Request<span class="token punctuation">)</span> <span class="token builtin">error</span>
+	<span class="token comment">// CheckHead performs a HEAD request before every GET to pre-validate the response</span>
+	CheckHead         <span class="token builtin">bool</span>
+	store             storage<span class="token punctuation">.</span>Storage
+	debugger          debug<span class="token punctuation">.</span>Debugger
+	robotsMap         <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token operator">*</span>robotstxt<span class="token punctuation">.</span>RobotsData
+	htmlCallbacks     <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>htmlCallbackContainer
+	xmlCallbacks      <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>xmlCallbackContainer
+	requestCallbacks  <span class="token punctuation">[</span><span class="token punctuation">]</span>RequestCallback
+	responseCallbacks <span class="token punctuation">[</span><span class="token punctuation">]</span>ResponseCallback
+	errorCallbacks    <span class="token punctuation">[</span><span class="token punctuation">]</span>ErrorCallback
+	scrapedCallbacks  <span class="token punctuation">[</span><span class="token punctuation">]</span>ScrapedCallback
+	requestCount      <span class="token builtin">uint32</span>
+	responseCount     <span class="token builtin">uint32</span>
+	backend           <span class="token operator">*</span>httpBackend
+	wg                <span class="token operator">*</span>sync<span class="token punctuation">.</span>WaitGroup
+	lock              <span class="token operator">*</span>sync<span class="token punctuation">.</span>RWMutex
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上面的具体属性我就不介绍了， 看看注释也就懂了。<br>我就先按上面的示例解释源码</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">   // 创建一个 Collector对象
+c :<span class="token operator">=</span> colly.NewCollector<span class="token punctuation">(</span>
+	// Visit only domains: hackerspaces.org, wiki.hackerspaces.org
+	colly.AllowedDomains<span class="token punctuation">(</span><span class="token string">"hackerspaces.org"</span>, <span class="token string">"wiki.hackerspaces.org"</span><span class="token punctuation">)</span>,
+<span class="token punctuation">)</span>
+
+// 添加一个HTML的回调函数
+c.OnHTML<span class="token punctuation">(</span><span class="token string">"a[href]"</span>, func<span class="token punctuation">(</span>e *colly.HTMLElement<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token function">link</span> :<span class="token operator">=</span> e.Attr<span class="token punctuation">(</span><span class="token string">"href"</span><span class="token punctuation">)</span>
+	// Print <span class="token function">link</span>
+	fmt.Printf<span class="token punctuation">(</span><span class="token string">"Link found: %q -&gt; %s<span class="token entity" title="\n">\n</span>"</span>, e.Text, <span class="token function">link</span><span class="token punctuation">)</span>
+	// Visit <span class="token function">link</span> found on page
+	// Only those links are visited <span class="token function">which</span> are <span class="token keyword">in</span> AllowedDomains
+	c.Visit<span class="token punctuation">(</span>e.Request.AbsoluteURL<span class="token punctuation">(</span>link<span class="token punctuation">))</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+// 添加一个 Requset回调函数
+c.OnRequest<span class="token punctuation">(</span>func<span class="token punctuation">(</span>r *colly.Request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	fmt.Println<span class="token punctuation">(</span><span class="token string">"Visiting"</span>, r.URL.String<span class="token punctuation">(</span><span class="token punctuation">))</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+// 开始爬取
+c.Visit<span class="token punctuation">(</span><span class="token string">"https://hackerspaces.org/"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>回调函数如何用？ 什么作用？ 先卖个关子， <code>c.Visit("https://hackerspaces.org/")</code>是入口， 那就先分析它，</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// Visit starts Collector's collecting job by creating a</span>
+<span class="token comment">// request to the URL specified in parameter.</span>
+<span class="token comment">// Visit also calls the previously provided callbacks</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">Visit</span><span class="token punctuation">(</span>URL <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
+	<span class="token keyword">if</span> c<span class="token punctuation">.</span>CheckHead <span class="token punctuation">{</span>
+		<span class="token keyword">if</span> check <span class="token operator">:=</span> c<span class="token punctuation">.</span><span class="token function">scrape</span><span class="token punctuation">(</span>URL<span class="token punctuation">,</span> <span class="token string">"HEAD"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span> check <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+			<span class="token keyword">return</span> check
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> c<span class="token punctuation">.</span><span class="token function">scrape</span><span class="token punctuation">(</span>URL<span class="token punctuation">,</span> <span class="token string">"GET"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>👆又出来一个新的method，</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">scrape</span><span class="token punctuation">(</span>u<span class="token punctuation">,</span> method <span class="token builtin">string</span><span class="token punctuation">,</span> depth <span class="token builtin">int</span><span class="token punctuation">,</span> requestData io<span class="token punctuation">.</span>Reader<span class="token punctuation">,</span> ctx <span class="token operator">*</span>Context<span class="token punctuation">,</span> hdr http<span class="token punctuation">.</span>Header<span class="token punctuation">,</span> checkRevisit <span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 检查请求是否合法</span>
+	<span class="token keyword">if</span> err <span class="token operator">:=</span> c<span class="token punctuation">.</span><span class="token function">requestCheck</span><span class="token punctuation">(</span>u<span class="token punctuation">,</span> method<span class="token punctuation">,</span> depth<span class="token punctuation">,</span> checkRevisit<span class="token punctuation">)</span><span class="token punctuation">;</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> err
+	<span class="token punctuation">}</span>
+    <span class="token comment">// 解析url，</span>
+	parsedURL<span class="token punctuation">,</span> err <span class="token operator">:=</span> url<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>u<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> err
+	<span class="token punctuation">}</span>
+	<span class="token keyword">if</span> parsedURL<span class="token punctuation">.</span>Scheme <span class="token operator">==</span> <span class="token string">""</span> <span class="token punctuation">{</span>
+		parsedURL<span class="token punctuation">.</span>Scheme <span class="token operator">=</span> <span class="token string">"http"</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">if</span> <span class="token operator">!</span>c<span class="token punctuation">.</span><span class="token function">isDomainAllowed</span><span class="token punctuation">(</span>parsedURL<span class="token punctuation">.</span><span class="token function">Hostname</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> ErrForbiddenDomain
+	<span class="token punctuation">}</span>
+    <span class="token comment">// robots协议</span>
+	<span class="token keyword">if</span> method <span class="token operator">!=</span> <span class="token string">"HEAD"</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>c<span class="token punctuation">.</span>IgnoreRobotsTxt <span class="token punctuation">{</span>
+		<span class="token keyword">if</span> err <span class="token operator">=</span> c<span class="token punctuation">.</span><span class="token function">checkRobots</span><span class="token punctuation">(</span>parsedURL<span class="token punctuation">)</span><span class="token punctuation">;</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+			<span class="token keyword">return</span> err
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+     <span class="token comment">// headers</span>
+	<span class="token keyword">if</span> hdr <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		hdr <span class="token operator">=</span> http<span class="token punctuation">.</span>Header<span class="token punctuation">{</span><span class="token string">"User-Agent"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span>c<span class="token punctuation">.</span>UserAgent<span class="token punctuation">}</span><span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	rc<span class="token punctuation">,</span> ok <span class="token operator">:=</span> requestData<span class="token punctuation">.</span><span class="token punctuation">(</span>io<span class="token punctuation">.</span>ReadCloser<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> <span class="token operator">!</span>ok <span class="token operator">&amp;&amp;</span> requestData <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		rc <span class="token operator">=</span> ioutil<span class="token punctuation">.</span><span class="token function">NopCloser</span><span class="token punctuation">(</span>requestData<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">// The Go HTTP API ignores "Host" in the headers, preferring the client</span>
+	<span class="token comment">// to use the Host field on Request.</span>
+	host <span class="token operator">:=</span> parsedURL<span class="token punctuation">.</span>Host
+	<span class="token keyword">if</span> hostHeader <span class="token operator">:=</span> hdr<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">"Host"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> hostHeader <span class="token operator">!=</span> <span class="token string">""</span> <span class="token punctuation">{</span>
+		host <span class="token operator">=</span> hostHeader
+	<span class="token punctuation">}</span>
+    <span class="token comment">// 构造http.Request</span>
+	req <span class="token operator">:=</span> <span class="token operator">&amp;</span>http<span class="token punctuation">.</span>Request<span class="token punctuation">{</span>
+		Method<span class="token punctuation">:</span>     method<span class="token punctuation">,</span>
+		URL<span class="token punctuation">:</span>        parsedURL<span class="token punctuation">,</span>
+		Proto<span class="token punctuation">:</span>      <span class="token string">"HTTP/1.1"</span><span class="token punctuation">,</span>
+		ProtoMajor<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+		ProtoMinor<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+		Header<span class="token punctuation">:</span>     hdr<span class="token punctuation">,</span>
+		Body<span class="token punctuation">:</span>       rc<span class="token punctuation">,</span>
+		Host<span class="token punctuation">:</span>       host<span class="token punctuation">,</span>
+	<span class="token punctuation">}</span>
+    <span class="token comment">// 请求的数据（requestData）转换成io.ReadCloser接口数据</span>
+	<span class="token function">setRequestBody</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span> requestData<span class="token punctuation">)</span>
+	u <span class="token operator">=</span> parsedURL<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	c<span class="token punctuation">.</span>wg<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token comment">// 异步方式</span>
+	<span class="token keyword">if</span> c<span class="token punctuation">.</span>Async <span class="token punctuation">{</span>
+		<span class="token keyword">go</span> c<span class="token punctuation">.</span><span class="token function">fetch</span><span class="token punctuation">(</span>u<span class="token punctuation">,</span> method<span class="token punctuation">,</span> depth<span class="token punctuation">,</span> requestData<span class="token punctuation">,</span> ctx<span class="token punctuation">,</span> hdr<span class="token punctuation">,</span> req<span class="token punctuation">)</span>
+		<span class="token keyword">return</span> <span class="token boolean">nil</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> c<span class="token punctuation">.</span><span class="token function">fetch</span><span class="token punctuation">(</span>u<span class="token punctuation">,</span> method<span class="token punctuation">,</span> depth<span class="token punctuation">,</span> requestData<span class="token punctuation">,</span> ctx<span class="token punctuation">,</span> hdr<span class="token punctuation">,</span> req<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上面很大篇幅都是检查， 现在还在 <code>request</code>的阶段， 还没有response，看<code>c.fetch</code></p>
+<p>fetch就是colly的核心内容</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">fetch</span><span class="token punctuation">(</span>u<span class="token punctuation">,</span> method <span class="token builtin">string</span><span class="token punctuation">,</span> depth <span class="token builtin">int</span><span class="token punctuation">,</span> requestData io<span class="token punctuation">.</span>Reader<span class="token punctuation">,</span> ctx <span class="token operator">*</span>Context<span class="token punctuation">,</span> hdr http<span class="token punctuation">.</span>Header<span class="token punctuation">,</span> req <span class="token operator">*</span>http<span class="token punctuation">.</span>Request<span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
+	<span class="token keyword">defer</span> c<span class="token punctuation">.</span>wg<span class="token punctuation">.</span><span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> ctx <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		ctx <span class="token operator">=</span> <span class="token function">NewContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	request <span class="token operator">:=</span> <span class="token operator">&amp;</span>Request<span class="token punctuation">{</span>
+		URL<span class="token punctuation">:</span>       req<span class="token punctuation">.</span>URL<span class="token punctuation">,</span>
+		Headers<span class="token punctuation">:</span>   <span class="token operator">&amp;</span>req<span class="token punctuation">.</span>Header<span class="token punctuation">,</span>
+		Ctx<span class="token punctuation">:</span>       ctx<span class="token punctuation">,</span>
+		Depth<span class="token punctuation">:</span>     depth<span class="token punctuation">,</span>
+		Method<span class="token punctuation">:</span>    method<span class="token punctuation">,</span>
+		Body<span class="token punctuation">:</span>      requestData<span class="token punctuation">,</span>
+		collector<span class="token punctuation">:</span> c<span class="token punctuation">,</span> <span class="token comment">// 这里将Collector放到request中，这个可以对请求继续处理</span>
+		ID<span class="token punctuation">:</span>        atomic<span class="token punctuation">.</span><span class="token function">AddUint32</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>c<span class="token punctuation">.</span>requestCount<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	<span class="token punctuation">}</span>
+    <span class="token comment">// 回调函数处理 request</span>
+	c<span class="token punctuation">.</span><span class="token function">handleOnRequest</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span>
+
+	<span class="token keyword">if</span> request<span class="token punctuation">.</span>abort <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token boolean">nil</span>
+	<span class="token punctuation">}</span>
+
+	<span class="token keyword">if</span> method <span class="token operator">==</span> <span class="token string">"POST"</span> <span class="token operator">&amp;&amp;</span> req<span class="token punctuation">.</span>Header<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">"Content-Type"</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">""</span> <span class="token punctuation">{</span>
+		req<span class="token punctuation">.</span>Header<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token string">"Content-Type"</span><span class="token punctuation">,</span> <span class="token string">"application/x-www-form-urlencoded"</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+
+	<span class="token keyword">if</span> req<span class="token punctuation">.</span>Header<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">"Accept"</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">""</span> <span class="token punctuation">{</span>
+		req<span class="token punctuation">.</span>Header<span class="token punctuation">.</span><span class="token function">Set</span><span class="token punctuation">(</span><span class="token string">"Accept"</span><span class="token punctuation">,</span> <span class="token string">"*/*"</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+
+	origURL <span class="token operator">:=</span> req<span class="token punctuation">.</span>URL
+    <span class="token comment">// 这里是 去请求网络， 是调用了 `http.Client.Do`方法请求的</span>
+	response<span class="token punctuation">,</span> err <span class="token operator">:=</span> c<span class="token punctuation">.</span>backend<span class="token punctuation">.</span><span class="token function">Cache</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span> c<span class="token punctuation">.</span>MaxBodySize<span class="token punctuation">,</span> c<span class="token punctuation">.</span>CacheDir<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> proxyURL<span class="token punctuation">,</span> ok <span class="token operator">:=</span> req<span class="token punctuation">.</span><span class="token function">Context</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Value</span><span class="token punctuation">(</span>ProxyURLKey<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">)</span><span class="token punctuation">;</span> ok <span class="token punctuation">{</span>
+		request<span class="token punctuation">.</span>ProxyURL <span class="token operator">=</span> proxyURL
+	<span class="token punctuation">}</span>
+    <span class="token comment">// 回调函数，处理error</span>
+	<span class="token keyword">if</span> err <span class="token operator">:=</span> c<span class="token punctuation">.</span><span class="token function">handleOnError</span><span class="token punctuation">(</span>response<span class="token punctuation">,</span> err<span class="token punctuation">,</span> request<span class="token punctuation">,</span> ctx<span class="token punctuation">)</span><span class="token punctuation">;</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> err
+	<span class="token punctuation">}</span>
+	<span class="token keyword">if</span> req<span class="token punctuation">.</span>URL <span class="token operator">!=</span> origURL <span class="token punctuation">{</span>
+		request<span class="token punctuation">.</span>URL <span class="token operator">=</span> req<span class="token punctuation">.</span>URL
+		request<span class="token punctuation">.</span>Headers <span class="token operator">=</span> <span class="token operator">&amp;</span>req<span class="token punctuation">.</span>Header
+	<span class="token punctuation">}</span>
+	atomic<span class="token punctuation">.</span><span class="token function">AddUint32</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>c<span class="token punctuation">.</span>responseCount<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+	response<span class="token punctuation">.</span>Ctx <span class="token operator">=</span> ctx
+	response<span class="token punctuation">.</span>Request <span class="token operator">=</span> request
+
+	err <span class="token operator">=</span> response<span class="token punctuation">.</span><span class="token function">fixCharset</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>DetectCharset<span class="token punctuation">,</span> request<span class="token punctuation">.</span>ResponseCharacterEncoding<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> err
+	<span class="token punctuation">}</span>
+    <span class="token comment">// 回调函数 处理Response</span>
+	c<span class="token punctuation">.</span><span class="token function">handleOnResponse</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span>
+    
+    <span class="token comment">// 回调函数 HTML</span>
+	err <span class="token operator">=</span> c<span class="token punctuation">.</span><span class="token function">handleOnHTML</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span><span class="token function">handleOnError</span><span class="token punctuation">(</span>response<span class="token punctuation">,</span> err<span class="token punctuation">,</span> request<span class="token punctuation">,</span> ctx<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+    <span class="token comment">// 回调函数XML</span>
+	err <span class="token operator">=</span> c<span class="token punctuation">.</span><span class="token function">handleOnXML</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span><span class="token function">handleOnError</span><span class="token punctuation">(</span>response<span class="token punctuation">,</span> err<span class="token punctuation">,</span> request<span class="token punctuation">,</span> ctx<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+    <span class="token comment">// 回调函数 Scraped</span>
+	c<span class="token punctuation">.</span><span class="token function">handleOnScraped</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span>
+
+	<span class="token keyword">return</span> err
+<span class="token punctuation">}</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>看到了， 这就是一个完整的流程。 好， 我们看一下回调函数做了什么？</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">handleOnRequest</span><span class="token punctuation">(</span>r <span class="token operator">*</span>Request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword">if</span> c<span class="token punctuation">.</span>debugger <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span>debugger<span class="token punctuation">.</span><span class="token function">Event</span><span class="token punctuation">(</span><span class="token function">createEvent</span><span class="token punctuation">(</span><span class="token string">"request"</span><span class="token punctuation">,</span> r<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> c<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span>
+			<span class="token string">"url"</span><span class="token punctuation">:</span> r<span class="token punctuation">.</span>URL<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+		<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> f <span class="token operator">:=</span> <span class="token keyword">range</span> c<span class="token punctuation">.</span>requestCallbacks <span class="token punctuation">{</span>
+		<span class="token function">f</span><span class="token punctuation">(</span>r<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>核心就 <code>for _, f := range c.requestCallbacks { f(r) }</code>这句，下面我每个回调函数都介绍一下</p>
+<h3 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h3><p>这里介绍按生命周期的顺序来介绍</p>
+<h4 id="1-OnRequest"><a href="#1-OnRequest" class="headerlink" title="1. OnRequest"></a>1. OnRequest</h4> <pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// OnRequest registers a function. Function will be executed on every</span>
+<span class="token comment">// request made by the Collector</span>
+<span class="token comment">// 这里是注册回调函数到 requestCallbacks</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">OnRequest</span><span class="token punctuation">(</span>f RequestCallback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	c<span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">Lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> c<span class="token punctuation">.</span>requestCallbacks <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span>requestCallbacks <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span>RequestCallback<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	c<span class="token punctuation">.</span>requestCallbacks <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>requestCallbacks<span class="token punctuation">,</span> f<span class="token punctuation">)</span>
+	c<span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token comment">// 在fetch中调用最早调用的</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">handleOnRequest</span><span class="token punctuation">(</span>r <span class="token operator">*</span>Request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword">if</span> c<span class="token punctuation">.</span>debugger <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span>debugger<span class="token punctuation">.</span><span class="token function">Event</span><span class="token punctuation">(</span><span class="token function">createEvent</span><span class="token punctuation">(</span><span class="token string">"request"</span><span class="token punctuation">,</span> r<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> c<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span>
+			<span class="token string">"url"</span><span class="token punctuation">:</span> r<span class="token punctuation">.</span>URL<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+		<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> f <span class="token operator">:=</span> <span class="token keyword">range</span> c<span class="token punctuation">.</span>requestCallbacks <span class="token punctuation">{</span>
+		<span class="token function">f</span><span class="token punctuation">(</span>r<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h4 id="2-OnResponse-amp-handleOnResponse"><a href="#2-OnResponse-amp-handleOnResponse" class="headerlink" title="2. OnResponse &amp; handleOnResponse"></a>2. OnResponse &amp; handleOnResponse</h4><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// OnResponse registers a function. Function will be executed on every response</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">OnResponse</span><span class="token punctuation">(</span>f ResponseCallback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	c<span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">Lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> c<span class="token punctuation">.</span>responseCallbacks <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span>responseCallbacks <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span>ResponseCallback<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	c<span class="token punctuation">.</span>responseCallbacks <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>responseCallbacks<span class="token punctuation">,</span> f<span class="token punctuation">)</span>
+	c<span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">handleOnResponse</span><span class="token punctuation">(</span>r <span class="token operator">*</span>Response<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword">if</span> c<span class="token punctuation">.</span>debugger <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span>debugger<span class="token punctuation">.</span><span class="token function">Event</span><span class="token punctuation">(</span><span class="token function">createEvent</span><span class="token punctuation">(</span><span class="token string">"response"</span><span class="token punctuation">,</span> r<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> c<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span>
+			<span class="token string">"url"</span><span class="token punctuation">:</span>    r<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>URL<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+			<span class="token string">"status"</span><span class="token punctuation">:</span> http<span class="token punctuation">.</span><span class="token function">StatusText</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span>StatusCode<span class="token punctuation">)</span><span class="token punctuation">,</span>
+		<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> f <span class="token operator">:=</span> <span class="token keyword">range</span> c<span class="token punctuation">.</span>responseCallbacks <span class="token punctuation">{</span>
+		<span class="token function">f</span><span class="token punctuation">(</span>r<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h4 id="3-OnHTML-amp-handleOnHTML"><a href="#3-OnHTML-amp-handleOnHTML" class="headerlink" title="3. OnHTML &amp; handleOnHTML"></a>3. OnHTML &amp; handleOnHTML</h4><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// OnHTML registers a function. Function will be executed on every HTML</span>
+<span class="token comment">// element matched by the GoQuery Selector parameter.</span>
+<span class="token comment">// GoQuery Selector is a selector used by https://github.com/PuerkitoBio/goquery</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">OnHTML</span><span class="token punctuation">(</span>goquerySelector <span class="token builtin">string</span><span class="token punctuation">,</span> f HTMLCallback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	c<span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">Lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> c<span class="token punctuation">.</span>htmlCallbacks <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span>htmlCallbacks <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>htmlCallbackContainer<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	c<span class="token punctuation">.</span>htmlCallbacks <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>htmlCallbacks<span class="token punctuation">,</span> <span class="token operator">&amp;</span>htmlCallbackContainer<span class="token punctuation">{</span>
+		Selector<span class="token punctuation">:</span> goquerySelector<span class="token punctuation">,</span>
+		Function<span class="token punctuation">:</span> f<span class="token punctuation">,</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span>
+	c<span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 这个解析html的逻辑比较多一些</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">handleOnHTML</span><span class="token punctuation">(</span>resp <span class="token operator">*</span>Response<span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
+	<span class="token keyword">if</span> <span class="token function">len</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>htmlCallbacks<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span> <span class="token operator">!</span>strings<span class="token punctuation">.</span><span class="token function">Contains</span><span class="token punctuation">(</span>strings<span class="token punctuation">.</span><span class="token function">ToLower</span><span class="token punctuation">(</span>resp<span class="token punctuation">.</span>Headers<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">"Content-Type"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"html"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token boolean">nil</span>
+	<span class="token punctuation">}</span>
+	doc<span class="token punctuation">,</span> err <span class="token operator">:=</span> goquery<span class="token punctuation">.</span><span class="token function">NewDocumentFromReader</span><span class="token punctuation">(</span>bytes<span class="token punctuation">.</span><span class="token function">NewBuffer</span><span class="token punctuation">(</span>resp<span class="token punctuation">.</span>Body<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> err
+	<span class="token punctuation">}</span>
+	<span class="token keyword">if</span> href<span class="token punctuation">,</span> found <span class="token operator">:=</span> doc<span class="token punctuation">.</span><span class="token function">Find</span><span class="token punctuation">(</span><span class="token string">"base[href]"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Attr</span><span class="token punctuation">(</span><span class="token string">"href"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> found <span class="token punctuation">{</span>
+		resp<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>baseURL<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">=</span> url<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>href<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> cc <span class="token operator">:=</span> <span class="token keyword">range</span> c<span class="token punctuation">.</span>htmlCallbacks <span class="token punctuation">{</span>
+		i <span class="token operator">:=</span> <span class="token number">0</span>
+		doc<span class="token punctuation">.</span><span class="token function">Find</span><span class="token punctuation">(</span>cc<span class="token punctuation">.</span>Selector<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Each</span><span class="token punctuation">(</span><span class="token keyword">func</span><span class="token punctuation">(</span><span class="token boolean">_</span> <span class="token builtin">int</span><span class="token punctuation">,</span> s <span class="token operator">*</span>goquery<span class="token punctuation">.</span>Selection<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> n <span class="token operator">:=</span> <span class="token keyword">range</span> s<span class="token punctuation">.</span>Nodes <span class="token punctuation">{</span>
+				e <span class="token operator">:=</span> <span class="token function">NewHTMLElementFromSelectionNode</span><span class="token punctuation">(</span>resp<span class="token punctuation">,</span> s<span class="token punctuation">,</span> n<span class="token punctuation">,</span> i<span class="token punctuation">)</span>
+				i<span class="token operator">++</span>
+				<span class="token keyword">if</span> c<span class="token punctuation">.</span>debugger <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+					c<span class="token punctuation">.</span>debugger<span class="token punctuation">.</span><span class="token function">Event</span><span class="token punctuation">(</span><span class="token function">createEvent</span><span class="token punctuation">(</span><span class="token string">"html"</span><span class="token punctuation">,</span> resp<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> c<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span>
+						<span class="token string">"selector"</span><span class="token punctuation">:</span> cc<span class="token punctuation">.</span>Selector<span class="token punctuation">,</span>
+						<span class="token string">"url"</span><span class="token punctuation">:</span>      resp<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>URL<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+					<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+				<span class="token punctuation">}</span>
+				cc<span class="token punctuation">.</span><span class="token function">Function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span>
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="4-OnXML-amp-handleOnXML"><a href="#4-OnXML-amp-handleOnXML" class="headerlink" title="4. OnXML &amp; handleOnXML"></a>4. OnXML &amp; handleOnXML</h4><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// OnXML registers a function. Function will be executed on every XML</span>
+<span class="token comment">// element matched by the xpath Query parameter.</span>
+<span class="token comment">// xpath Query is used by https://github.com/antchfx/xmlquery</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">OnXML</span><span class="token punctuation">(</span>xpathQuery <span class="token builtin">string</span><span class="token punctuation">,</span> f XMLCallback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	c<span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">Lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> c<span class="token punctuation">.</span>xmlCallbacks <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span>xmlCallbacks <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>xmlCallbackContainer<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	c<span class="token punctuation">.</span>xmlCallbacks <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>xmlCallbacks<span class="token punctuation">,</span> <span class="token operator">&amp;</span>xmlCallbackContainer<span class="token punctuation">{</span>
+		Query<span class="token punctuation">:</span>    xpathQuery<span class="token punctuation">,</span>
+		Function<span class="token punctuation">:</span> f<span class="token punctuation">,</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span>
+	c<span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">handleOnXML</span><span class="token punctuation">(</span>resp <span class="token operator">*</span>Response<span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
+	<span class="token keyword">if</span> <span class="token function">len</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>xmlCallbacks<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token boolean">nil</span>
+	<span class="token punctuation">}</span>
+	contentType <span class="token operator">:=</span> strings<span class="token punctuation">.</span><span class="token function">ToLower</span><span class="token punctuation">(</span>resp<span class="token punctuation">.</span>Headers<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span><span class="token string">"Content-Type"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	isXMLFile <span class="token operator">:=</span> strings<span class="token punctuation">.</span><span class="token function">HasSuffix</span><span class="token punctuation">(</span>strings<span class="token punctuation">.</span><span class="token function">ToLower</span><span class="token punctuation">(</span>resp<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>URL<span class="token punctuation">.</span>Path<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">".xml"</span><span class="token punctuation">)</span> <span class="token operator">||</span> strings<span class="token punctuation">.</span><span class="token function">HasSuffix</span><span class="token punctuation">(</span>strings<span class="token punctuation">.</span><span class="token function">ToLower</span><span class="token punctuation">(</span>resp<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>URL<span class="token punctuation">.</span>Path<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">".xml.gz"</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> <span class="token operator">!</span>strings<span class="token punctuation">.</span><span class="token function">Contains</span><span class="token punctuation">(</span>contentType<span class="token punctuation">,</span> <span class="token string">"html"</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span><span class="token operator">!</span>strings<span class="token punctuation">.</span><span class="token function">Contains</span><span class="token punctuation">(</span>contentType<span class="token punctuation">,</span> <span class="token string">"xml"</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>isXMLFile<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token boolean">nil</span>
+	<span class="token punctuation">}</span>
+
+	<span class="token keyword">if</span> strings<span class="token punctuation">.</span><span class="token function">Contains</span><span class="token punctuation">(</span>contentType<span class="token punctuation">,</span> <span class="token string">"html"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		doc<span class="token punctuation">,</span> err <span class="token operator">:=</span> htmlquery<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>bytes<span class="token punctuation">.</span><span class="token function">NewBuffer</span><span class="token punctuation">(</span>resp<span class="token punctuation">.</span>Body<span class="token punctuation">)</span><span class="token punctuation">)</span>
+		<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+			<span class="token keyword">return</span> err
+		<span class="token punctuation">}</span>
+		<span class="token keyword">if</span> e <span class="token operator">:=</span> htmlquery<span class="token punctuation">.</span><span class="token function">FindOne</span><span class="token punctuation">(</span>doc<span class="token punctuation">,</span> <span class="token string">"//base"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> e <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+			<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> a <span class="token operator">:=</span> <span class="token keyword">range</span> e<span class="token punctuation">.</span>Attr <span class="token punctuation">{</span>
+				<span class="token keyword">if</span> a<span class="token punctuation">.</span>Key <span class="token operator">==</span> <span class="token string">"href"</span> <span class="token punctuation">{</span>
+					resp<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>baseURL<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">=</span> url<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>Val<span class="token punctuation">)</span>
+					<span class="token keyword">break</span>
+				<span class="token punctuation">}</span>
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span>
+
+		<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> cc <span class="token operator">:=</span> <span class="token keyword">range</span> c<span class="token punctuation">.</span>xmlCallbacks <span class="token punctuation">{</span>
+			<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> n <span class="token operator">:=</span> <span class="token keyword">range</span> htmlquery<span class="token punctuation">.</span><span class="token function">Find</span><span class="token punctuation">(</span>doc<span class="token punctuation">,</span> cc<span class="token punctuation">.</span>Query<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				e <span class="token operator">:=</span> <span class="token function">NewXMLElementFromHTMLNode</span><span class="token punctuation">(</span>resp<span class="token punctuation">,</span> n<span class="token punctuation">)</span>
+				<span class="token keyword">if</span> c<span class="token punctuation">.</span>debugger <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+					c<span class="token punctuation">.</span>debugger<span class="token punctuation">.</span><span class="token function">Event</span><span class="token punctuation">(</span><span class="token function">createEvent</span><span class="token punctuation">(</span><span class="token string">"xml"</span><span class="token punctuation">,</span> resp<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> c<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span>
+						<span class="token string">"selector"</span><span class="token punctuation">:</span> cc<span class="token punctuation">.</span>Query<span class="token punctuation">,</span>
+						<span class="token string">"url"</span><span class="token punctuation">:</span>      resp<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>URL<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+					<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+				<span class="token punctuation">}</span>
+				cc<span class="token punctuation">.</span><span class="token function">Function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span>
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> strings<span class="token punctuation">.</span><span class="token function">Contains</span><span class="token punctuation">(</span>contentType<span class="token punctuation">,</span> <span class="token string">"xml"</span><span class="token punctuation">)</span> <span class="token operator">||</span> isXMLFile <span class="token punctuation">{</span>
+		doc<span class="token punctuation">,</span> err <span class="token operator">:=</span> xmlquery<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>bytes<span class="token punctuation">.</span><span class="token function">NewBuffer</span><span class="token punctuation">(</span>resp<span class="token punctuation">.</span>Body<span class="token punctuation">)</span><span class="token punctuation">)</span>
+		<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+			<span class="token keyword">return</span> err
+		<span class="token punctuation">}</span>
+
+		<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> cc <span class="token operator">:=</span> <span class="token keyword">range</span> c<span class="token punctuation">.</span>xmlCallbacks <span class="token punctuation">{</span>
+			xmlquery<span class="token punctuation">.</span><span class="token function">FindEach</span><span class="token punctuation">(</span>doc<span class="token punctuation">,</span> cc<span class="token punctuation">.</span>Query<span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>i <span class="token builtin">int</span><span class="token punctuation">,</span> n <span class="token operator">*</span>xmlquery<span class="token punctuation">.</span>Node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				e <span class="token operator">:=</span> <span class="token function">NewXMLElementFromXMLNode</span><span class="token punctuation">(</span>resp<span class="token punctuation">,</span> n<span class="token punctuation">)</span>
+				<span class="token keyword">if</span> c<span class="token punctuation">.</span>debugger <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+					c<span class="token punctuation">.</span>debugger<span class="token punctuation">.</span><span class="token function">Event</span><span class="token punctuation">(</span><span class="token function">createEvent</span><span class="token punctuation">(</span><span class="token string">"xml"</span><span class="token punctuation">,</span> resp<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> c<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span>
+						<span class="token string">"selector"</span><span class="token punctuation">:</span> cc<span class="token punctuation">.</span>Query<span class="token punctuation">,</span>
+						<span class="token string">"url"</span><span class="token punctuation">:</span>      resp<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>URL<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+					<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+				<span class="token punctuation">}</span>
+				cc<span class="token punctuation">.</span><span class="token function">Function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span>
+			<span class="token punctuation">}</span><span class="token punctuation">)</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h4 id="5-OnError-amp-handleOnError"><a href="#5-OnError-amp-handleOnError" class="headerlink" title="5. OnError &amp; handleOnError"></a>5. OnError &amp; handleOnError</h4><p>这个会多次调用， 如果 <code>err != nil情况下调用比较多</code>， 爬虫异常的情况下，会调用</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// OnError registers a function. Function will be executed if an error</span>
+<span class="token comment">// occurs during the HTTP request.</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">OnError</span><span class="token punctuation">(</span>f ErrorCallback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	c<span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">Lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> c<span class="token punctuation">.</span>errorCallbacks <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span>errorCallbacks <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span>ErrorCallback<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	c<span class="token punctuation">.</span>errorCallbacks <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>errorCallbacks<span class="token punctuation">,</span> f<span class="token punctuation">)</span>
+	c<span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">handleOnError</span><span class="token punctuation">(</span>response <span class="token operator">*</span>Response<span class="token punctuation">,</span> err <span class="token builtin">error</span><span class="token punctuation">,</span> request <span class="token operator">*</span>Request<span class="token punctuation">,</span> ctx <span class="token operator">*</span>Context<span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
+	<span class="token keyword">if</span> err <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>c<span class="token punctuation">.</span>ParseHTTPErrorResponse <span class="token operator">||</span> response<span class="token punctuation">.</span>StatusCode <span class="token operator">&lt;</span> <span class="token number">203</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token boolean">nil</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">if</span> err <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token operator">&amp;&amp;</span> response<span class="token punctuation">.</span>StatusCode <span class="token operator">&gt;=</span> <span class="token number">203</span> <span class="token punctuation">{</span>
+		err <span class="token operator">=</span> errors<span class="token punctuation">.</span><span class="token function">New</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span><span class="token function">StatusText</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>StatusCode<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">if</span> response <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		response <span class="token operator">=</span> <span class="token operator">&amp;</span>Response<span class="token punctuation">{</span>
+			Request<span class="token punctuation">:</span> request<span class="token punctuation">,</span>
+			Ctx<span class="token punctuation">:</span>     ctx<span class="token punctuation">,</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">if</span> c<span class="token punctuation">.</span>debugger <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span>debugger<span class="token punctuation">.</span><span class="token function">Event</span><span class="token punctuation">(</span><span class="token function">createEvent</span><span class="token punctuation">(</span><span class="token string">"error"</span><span class="token punctuation">,</span> request<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> c<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span>
+			<span class="token string">"url"</span><span class="token punctuation">:</span>    request<span class="token punctuation">.</span>URL<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+			<span class="token string">"status"</span><span class="token punctuation">:</span> http<span class="token punctuation">.</span><span class="token function">StatusText</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>StatusCode<span class="token punctuation">)</span><span class="token punctuation">,</span>
+		<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">if</span> response<span class="token punctuation">.</span>Request <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		response<span class="token punctuation">.</span>Request <span class="token operator">=</span> request
+	<span class="token punctuation">}</span>
+	<span class="token keyword">if</span> response<span class="token punctuation">.</span>Ctx <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		response<span class="token punctuation">.</span>Ctx <span class="token operator">=</span> request<span class="token punctuation">.</span>Ctx
+	<span class="token punctuation">}</span>
+	<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> f <span class="token operator">:=</span> <span class="token keyword">range</span> c<span class="token punctuation">.</span>errorCallbacks <span class="token punctuation">{</span>
+		<span class="token function">f</span><span class="token punctuation">(</span>response<span class="token punctuation">,</span> err<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> err
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="6-OnScraped-amp-handleOnScraped"><a href="#6-OnScraped-amp-handleOnScraped" class="headerlink" title="6. OnScraped &amp; handleOnScraped"></a>6. OnScraped &amp; handleOnScraped</h4><p>最后一步的回调函数处理</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// OnScraped registers a function. Function will be executed after</span>
+<span class="token comment">// OnHTML, as a final part of the scraping.</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">OnScraped</span><span class="token punctuation">(</span>f ScrapedCallback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	c<span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">Lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> c<span class="token punctuation">.</span>scrapedCallbacks <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span>scrapedCallbacks <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span>ScrapedCallback<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	c<span class="token punctuation">.</span>scrapedCallbacks <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>scrapedCallbacks<span class="token punctuation">,</span> f<span class="token punctuation">)</span>
+	c<span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">handleOnScraped</span><span class="token punctuation">(</span>r <span class="token operator">*</span>Response<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword">if</span> c<span class="token punctuation">.</span>debugger <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		c<span class="token punctuation">.</span>debugger<span class="token punctuation">.</span><span class="token function">Event</span><span class="token punctuation">(</span><span class="token function">createEvent</span><span class="token punctuation">(</span><span class="token string">"scraped"</span><span class="token punctuation">,</span> r<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> c<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span>
+			<span class="token string">"url"</span><span class="token punctuation">:</span> r<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>URL<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+		<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> f <span class="token operator">:=</span> <span class="token keyword">range</span> c<span class="token punctuation">.</span>scrapedCallbacks <span class="token punctuation">{</span>
+		<span class="token function">f</span><span class="token punctuation">(</span>r<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注册回调函数的method还有几个没有列出来，感兴趣的，自己看一下，</p>
+<p>上面介绍完了， 再回头看🌰</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// On every a element which has href attribute call callback</span>
+c<span class="token punctuation">.</span><span class="token function">OnHTML</span><span class="token punctuation">(</span><span class="token string">"a[href]"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>e <span class="token operator">*</span>colly<span class="token punctuation">.</span>HTMLElement<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	link <span class="token operator">:=</span> e<span class="token punctuation">.</span><span class="token function">Attr</span><span class="token punctuation">(</span><span class="token string">"href"</span><span class="token punctuation">)</span>
+	<span class="token comment">// Print link</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"Link found: %q -&gt; %s\n"</span><span class="token punctuation">,</span> e<span class="token punctuation">.</span>Text<span class="token punctuation">,</span> link<span class="token punctuation">)</span>
+	<span class="token comment">// Visit link found on page</span>
+	<span class="token comment">// Only those links are visited which are in AllowedDomains</span>
+	c<span class="token punctuation">.</span><span class="token function">Visit</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>Request<span class="token punctuation">.</span><span class="token function">AbsoluteURL</span><span class="token punctuation">(</span>link<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Before making a request print "Visiting ..."</span>
+c<span class="token punctuation">.</span><span class="token function">OnRequest</span><span class="token punctuation">(</span><span class="token keyword">func</span><span class="token punctuation">(</span>r <span class="token operator">*</span>colly<span class="token punctuation">.</span>Request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Visiting"</span><span class="token punctuation">,</span> r<span class="token punctuation">.</span>URL<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>一般文档解析放在html, xml 中</p>
+<h3 id="页面跳转爬取"><a href="#页面跳转爬取" class="headerlink" title="页面跳转爬取"></a>页面跳转爬取</h3><p>一般处理就2种，一种是相同逻辑的页面，比如<code>下一页</code>，另一种，就是不同逻辑的，比如<code>子页面</code></p>
+<ol>
+<li>在<code>html</code>,<code>xml</code>，解析出来以后，构建新的请求，我们看一下，相同页面<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// On every a element which has href attribute call callback</span>
+c<span class="token punctuation">.</span><span class="token function">OnHTML</span><span class="token punctuation">(</span><span class="token string">"a[href]"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>e <span class="token operator">*</span>colly<span class="token punctuation">.</span>HTMLElement<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// If attribute class is this long string return from callback</span>
+	<span class="token comment">// As this a is irrelevant</span>
+	<span class="token keyword">if</span> e<span class="token punctuation">.</span><span class="token function">Attr</span><span class="token punctuation">(</span><span class="token string">"class"</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">"Button_1qxkboh-o_O-primary_cv02ee-o_O-md_28awn8-o_O-primaryLink_109aggg"</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span>
+	<span class="token punctuation">}</span>
+	link <span class="token operator">:=</span> e<span class="token punctuation">.</span><span class="token function">Attr</span><span class="token punctuation">(</span><span class="token string">"href"</span><span class="token punctuation">)</span>
+	<span class="token comment">// If link start with browse or includes either signup or login return from callback</span>
+	<span class="token keyword">if</span> <span class="token operator">!</span>strings<span class="token punctuation">.</span><span class="token function">HasPrefix</span><span class="token punctuation">(</span>link<span class="token punctuation">,</span> <span class="token string">"/browse"</span><span class="token punctuation">)</span> <span class="token operator">||</span> strings<span class="token punctuation">.</span><span class="token function">Index</span><span class="token punctuation">(</span>link<span class="token punctuation">,</span> <span class="token string">"=signup"</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">||</span> strings<span class="token punctuation">.</span><span class="token function">Index</span><span class="token punctuation">(</span>link<span class="token punctuation">,</span> <span class="token string">"=login"</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">// start scaping the page under the link found</span>
+	e<span class="token punctuation">.</span>Request<span class="token punctuation">.</span><span class="token function">Visit</span><span class="token punctuation">(</span>link<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+上面是 HTML的回调函数，解析页面，获取了<code>url</code>,使用 <code>e.Request.Visit(link)</code>, 其实就是 <code>e.Request.collector.Visit(link)</code><br>我解释一下<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>Collector<span class="token punctuation">)</span> <span class="token function">fetch</span><span class="token punctuation">(</span>u<span class="token punctuation">,</span> method <span class="token builtin">string</span><span class="token punctuation">,</span> depth <span class="token builtin">int</span><span class="token punctuation">,</span> requestData io<span class="token punctuation">.</span>Reader<span class="token punctuation">,</span> ctx <span class="token operator">*</span>Context<span class="token punctuation">,</span> hdr http<span class="token punctuation">.</span>Header<span class="token punctuation">,</span> req <span class="token operator">*</span>http<span class="token punctuation">.</span>Request<span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
+	<span class="token keyword">defer</span> c<span class="token punctuation">.</span>wg<span class="token punctuation">.</span><span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> ctx <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		ctx <span class="token operator">=</span> <span class="token function">NewContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	request <span class="token operator">:=</span> <span class="token operator">&amp;</span>Request<span class="token punctuation">{</span>
+		URL<span class="token punctuation">:</span>       req<span class="token punctuation">.</span>URL<span class="token punctuation">,</span>
+		Headers<span class="token punctuation">:</span>   <span class="token operator">&amp;</span>req<span class="token punctuation">.</span>Header<span class="token punctuation">,</span>
+		Ctx<span class="token punctuation">:</span>       ctx<span class="token punctuation">,</span>
+		Depth<span class="token punctuation">:</span>     depth<span class="token punctuation">,</span>
+		Method<span class="token punctuation">:</span>    method<span class="token punctuation">,</span>
+		Body<span class="token punctuation">:</span>      requestData<span class="token punctuation">,</span>
+		collector<span class="token punctuation">:</span> c<span class="token punctuation">,</span> <span class="token comment">// 这个上面有介绍</span>
+		ID<span class="token punctuation">:</span>        atomic<span class="token punctuation">.</span><span class="token function">AddUint32</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>c<span class="token punctuation">.</span>requestCount<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	<span class="token punctuation">}</span>
+    <span class="token operator">...</span><span class="token punctuation">.</span>
+    <span class="token punctuation">}</span><span class="token punctuation">}</span>
+
+
+<span class="token comment">// Visit continues Collector's collecting job by creating a</span>
+<span class="token comment">// request and preserves the Context of the previous request.</span>
+<span class="token comment">// Visit also calls the previously provided callbacks</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>r <span class="token operator">*</span>Request<span class="token punctuation">)</span> <span class="token function">Visit</span><span class="token punctuation">(</span>URL <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
+	<span class="token keyword">return</span> r<span class="token punctuation">.</span>collector<span class="token punctuation">.</span><span class="token function">scrape</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span><span class="token function">AbsoluteURL</span><span class="token punctuation">(</span>URL<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"GET"</span><span class="token punctuation">,</span> r<span class="token punctuation">.</span>Depth<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> r<span class="token punctuation">.</span>Ctx<span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+这种方法在实际开发中经常会用到。</li>
+</ol>
+<ol start="2">
+<li>子页面的处理逻辑<br>colly中主要是以<code>Collector</code>为中心， 然后各种回调函数进行处理，子页面需要不同的回调函数，所以就需要新的 <code>Collector</code></li>
+</ol>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// Instantiate default collector</span>
+c <span class="token operator">:=</span> colly<span class="token punctuation">.</span><span class="token function">NewCollector</span><span class="token punctuation">(</span>
+	<span class="token comment">// Visit only domains: coursera.org, www.coursera.org</span>
+	colly<span class="token punctuation">.</span><span class="token function">AllowedDomains</span><span class="token punctuation">(</span><span class="token string">"coursera.org"</span><span class="token punctuation">,</span> <span class="token string">"www.coursera.org"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+
+	<span class="token comment">// Cache responses to prevent multiple download of pages</span>
+	<span class="token comment">// even if the collector is restarted</span>
+	colly<span class="token punctuation">.</span><span class="token function">CacheDir</span><span class="token punctuation">(</span><span class="token string">"./coursera_cache"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment">// Create another collector to scrape course details</span>
+detailCollector <span class="token operator">:=</span> c<span class="token punctuation">.</span><span class="token function">Clone</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Before making a request print "Visiting ..."</span>
+c<span class="token punctuation">.</span><span class="token function">OnRequest</span><span class="token punctuation">(</span><span class="token keyword">func</span><span class="token punctuation">(</span>r <span class="token operator">*</span>colly<span class="token punctuation">.</span>Request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	log<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"visiting"</span><span class="token punctuation">,</span> r<span class="token punctuation">.</span>URL<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment">// On every a HTML element which has name attribute call callback</span>
+c<span class="token punctuation">.</span><span class="token function">OnHTML</span><span class="token punctuation">(</span><span class="token string">`a[name]`</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>e <span class="token operator">*</span>colly<span class="token punctuation">.</span>HTMLElement<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// Activate detailCollector if the link contains "coursera.org/learn"</span>
+	courseURL <span class="token operator">:=</span> e<span class="token punctuation">.</span>Request<span class="token punctuation">.</span><span class="token function">AbsoluteURL</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">Attr</span><span class="token punctuation">(</span><span class="token string">"href"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> strings<span class="token punctuation">.</span><span class="token function">Index</span><span class="token punctuation">(</span>courseURL<span class="token punctuation">,</span> <span class="token string">"coursera.org/learn"</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token punctuation">{</span>
+          <span class="token comment">// 子页面或其他页面</span>
+		detailCollector<span class="token punctuation">.</span><span class="token function">Visit</span><span class="token punctuation">(</span>courseURL<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h3 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h3><p><code>Collector</code>对象有一个属性 <code>store             storage.Storage</code>是存储的，这个是将数据直接存储下来，没有清洗。<br>比如， 我需要将数据持久化到数据库中，其实很简单， 在回调函数中处理。</p>
+<p>给个例子</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">c<span class="token punctuation">.</span><span class="token function">OnHTML</span><span class="token punctuation">(</span><span class="token string">"#currencies-all tbody tr"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>e <span class="token operator">*</span>colly<span class="token punctuation">.</span>HTMLElement<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	mysql<span class="token punctuation">.</span><span class="token function">WriteObjectStrings</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span>
+		e<span class="token punctuation">.</span><span class="token function">ChildText</span><span class="token punctuation">(</span><span class="token string">".currency-name-container"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+		e<span class="token punctuation">.</span><span class="token function">ChildText</span><span class="token punctuation">(</span><span class="token string">".col-symbol"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+		e<span class="token punctuation">.</span><span class="token function">ChildAttr</span><span class="token punctuation">(</span><span class="token string">"a.price"</span><span class="token punctuation">,</span> <span class="token string">"data-usd"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+		e<span class="token punctuation">.</span><span class="token function">ChildAttr</span><span class="token punctuation">(</span><span class="token string">"a.volume"</span><span class="token punctuation">,</span> <span class="token string">"data-usd"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+		e<span class="token punctuation">.</span><span class="token function">ChildAttr</span><span class="token punctuation">(</span><span class="token string">".market-cap"</span><span class="token punctuation">,</span> <span class="token string">"data-usd"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+		e<span class="token punctuation">.</span><span class="token function">ChildAttr</span><span class="token punctuation">(</span><span class="token string">".percent-change[data-timespan=\"1h\"]"</span><span class="token punctuation">,</span> <span class="token string">"data-percentusd"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+		e<span class="token punctuation">.</span><span class="token function">ChildAttr</span><span class="token punctuation">(</span><span class="token string">".percent-change[data-timespan=\"24h\"]"</span><span class="token punctuation">,</span> <span class="token string">"data-percentusd"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+		e<span class="token punctuation">.</span><span class="token function">ChildAttr</span><span class="token punctuation">(</span><span class="token string">".percent-change[data-timespan=\"7d\"]"</span><span class="token punctuation">,</span> <span class="token string">"data-percentusd"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>好了，介绍完了，我没有介绍如何使用，我自己也没有写任何的代码， 我只想分享给你这种软件架构的特点以及设计模式， 希望你可以借鉴应用到工作中，一般写框架都是采用这种思维。<br>下面这张图很形象，爬虫框架就这些东西。<br><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/BqC7ix.jpg" alt="通用爬虫框架架构"></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Jackson</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.jacksonyoudi.com/2021/08/01/colly/">https://www.jacksonyoudi.com/2021/08/01/colly/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Jackson</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/crawler/">
+                                    <span class="chip bg-color">crawler</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%88%AC%E8%99%AB/">
+                                    <span class="chip bg-color">爬虫</span>
+                                </a>
+                            
+                                <a href="/tags/go/">
+                                    <span class="chip bg-color">go</span>
+                                </a>
+                            
+                                <a href="/tags/colly/">
+                                    <span class="chip bg-color">colly</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2021/08/01/colly/">
+                    <div class="card-image">
+                        
+                        <img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/RYdTI7.png" class="responsive-img" alt="go爬虫框架colly源码以及软件架构分析">
+                        
+                        <span class="card-title">go爬虫框架colly源码以及软件架构分析</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            介绍go爬虫框架，从源码介绍colly数据流转过程
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF/" class="post-category">
+                                    技术
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/crawler/">
+                        <span class="chip bg-color">crawler</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%88%AC%E8%99%AB/">
+                        <span class="chip bg-color">爬虫</span>
+                    </a>
+                    
+                    <a href="/tags/go/">
+                        <span class="chip bg-color">go</span>
+                    </a>
+                    
+                    <a href="/tags/colly/">
+                        <span class="chip bg-color">colly</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/08/01/spark-load-to-es/">
+                    <div class="card-image">
+                        
+                        <img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/H8s52K.jpg" class="responsive-img" alt="spark加载数据到ES">
+                        
+                        <span class="card-title">spark加载数据到ES</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            spark多种方式将数据写入的elasticsearch，会通过源码介绍scala的隐式转换进行mixin方式实现不侵入实现RDD具有saveToES功能
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="post-category">
+                                    大数据
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/spark/">
+                        <span class="chip bg-color">spark</span>
+                    </a>
+                    
+                    <a href="/tags/es/">
+                        <span class="chip bg-color">es</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+                        <span class="chip bg-color">大数据</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: JacksonYoudi<br />'
+            + '文章作者: Jackson<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2021</span>
+            
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">Jackson</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/jacksonyoudi" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:liangchangyoujackson@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
