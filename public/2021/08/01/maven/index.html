@@ -1,0 +1,1281 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="java,maven,tool">
+    <meta name="description" content="简单童真">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>项目管理工具maven | JacksonYoudi</title>
+    <link rel="icon" type="image/png" href="/medias/mj-moon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/mj-moon.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">JacksonYoudi</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/mj-moon.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">JacksonYoudi</div>
+        <div class="logo-desc">
+            
+            简单童真
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/jacksonyoudi" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/jacksonyoudi" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/xwoLGY.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">项目管理工具maven</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/java/">
+                                <span class="chip bg-color">java</span>
+                            </a>
+                        
+                            <a href="/tags/package-manager/">
+                                <span class="chip bg-color">package manager</span>
+                            </a>
+                        
+                            <a href="/tags/maven/">
+                                <span class="chip bg-color">maven</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%B7%A5%E5%85%B7%E8%BD%AF%E4%BB%B6/" class="post-category">
+                                工具软件
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-08-01
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>在学习的技术越来越多，写的代码越来越多，会发现代码管理越来越复杂，就自然有了包的概念。我个人前面的jar包都是手动管理的，由于，我经常使用python的pip以及golang的 govender以及 gomods，所以，会想到java的包管理工具，查了一下，发现maven很强大，可以极大的提高开发效率，故学习，下面是学习过程中整理的笔记。</p>
+<h2 id="目前在技术开发中存在的问题"><a href="#目前在技术开发中存在的问题" class="headerlink" title="目前在技术开发中存在的问题"></a>目前在技术开发中存在的问题</h2><ol>
+<li><p>一个项目就是一个工程<br>如果项目非常庞大，就不适合继续使用package来划分模块。最好是每一个模块对应一个项目，利于分工协作。<br>借助于maven就可以将一个项目拆分成多个工程。</p>
+</li>
+<li><p>项目中需要的jar包必须手动“复制”、”粘贴” 到WEB-INF/lib 项目下<br>带来的问题：同样的jar包文件重复出现在不同的项目工程中，一方面浪费存储空间，另外也让工程比较臃肿。<br>借助Maven，可以将jar包仅仅保存在“仓库”中，有需要使用的工程“引用”这个文件，并不需要重复复制。</p>
+</li>
+<li><p>jar包需要别人替我们准备好，或到官网下载<br>所有知名框架或第三方工具jar包已经按照统一规范放在了Maven的中央仓库中。</p>
+</li>
+<li><p>一个jar包依赖的其他jar包需要自己手动加到项目中<br>Maven会自动将被依赖的jar包导入进来。</p>
+</li>
+</ol>
+<h2 id="maven是什么"><a href="#maven是什么" class="headerlink" title="maven是什么"></a>maven是什么</h2><ol>
+<li>Maven 是 Apache 软件基金会组织维护的一款自动化构建工具，专注服务于 Java 平台的项目构建和依赖管理 。Maven 这个单词的本意是：专家，内行。读音是[‘meɪv(ə)n]或[‘mevn]。<br>构建工具的发展：Make→Ant→Maven→Gradle</li>
+</ol>
+<ol start="2">
+<li>构建：就是以我们编写的Java代码、框架配置文件、国际化等其他资源文件、jsp页面和图片等静态资源作为“原材料”，去“生产”出一个可以运行的项目的过程。<br>理想的项目构建：高度自动化，跨平台，可重用的组件，标准化的</li>
+</ol>
+<p>3.构建过程中的几个主要环节<br>①清理：删除以前的编译结果，为重新编译做好准备。<br>②编译：将Java源程序编译为字节码文件。<br>③测试：针对项目中的关键点进行测试，确保项目在迭代开发过程中关键点的正确性。<br>④报告：将每一次测试后以标准的格式记录和展示测试结果。<br>⑤打包：将一个包含诸多文件的工程封装为一个压缩文件用于安装或部署。Java工程对应jar包，Web工程对象war包。<br>⑥安装：在Maven环境下特指将打包的结果——Jar包或War包安装到本地仓库中。<br>⑦部署：将打包的结果部署到远程仓库或将war包部署到服务器上运行。</p>
+<p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/PeaY9R.jpg"></p>
+<p>日常开发中，如果不通过maven，以上步骤全部是程序员自己手动一个一个的去编译执行操作，有了maven， 只需要简单的一个命令，全部搞定，解放双手。</p>
+<ol start="4">
+<li>什么是依赖？为什么要进行依赖管理？<br>依赖是Maven中最关键的部分，我们之所以在工程中使用Maven，就是因为它的依赖管理功能。<br>自动下载，统一依赖管理，避免jar包引起的错误。</li>
+</ol>
+<h3 id="maven安装"><a href="#maven安装" class="headerlink" title="maven安装"></a>maven安装</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">brew <span class="token function">install</span> maven<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>安装完成后，查看安装文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">
+macbookpro <span class="token operator">&gt;</span> brew list maven
+/usr/local/Cellar/maven/3.6.1/bin/mvn
+/usr/local/Cellar/maven/3.6.1/bin/mvnDebug
+/usr/local/Cellar/maven/3.6.1/bin/mvnyjp
+/usr/local/Cellar/maven/3.6.1/libexec/bin/ <span class="token punctuation">(</span><span class="token number">4</span> files<span class="token punctuation">)</span>
+/usr/local/Cellar/maven/3.6.1/libexec/boot/plexus-classworlds-2.6.0.jar
+/usr/local/Cellar/maven/3.6.1/libexec/conf/ <span class="token punctuation">(</span><span class="token number">3</span> files<span class="token punctuation">)</span>
+/usr/local/Cellar/maven/3.6.1/libexec/lib/ <span class="token punctuation">(</span><span class="token number">63</span> files<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>测试一下：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">macbookpro<span class="token operator">&gt;</span> mvn --v
+Apache Maven <span class="token number">3.6</span>.1 <span class="token punctuation">(</span>d66c9c0b3152b2e69ee9bac180bb8fcc8e6af555<span class="token punctuation">;</span> <span class="token number">2019</span>-04-05T03:00:29+08:00<span class="token punctuation">)</span>
+Maven home: /usr/local/Cellar/maven/3.6.1/libexec
+Java version: <span class="token number">1.8</span>.0_172, vendor: Oracle Corporation, runtime: /Library/Java/JavaVirtualMachines/jdk1.8.0_172.jdk/Contents/Home/jre
+Default locale: zh_CN, platform encoding: UTF-8
+OS name: <span class="token string">"mac os x"</span>, version: <span class="token string">"10.15"</span>, arch: <span class="token string">"x86_64"</span>, family: <span class="token string">"mac"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>可以使用<code>mvn --help</code>查看帮助</p>
+<h3 id="maven的核心概念"><a href="#maven的核心概念" class="headerlink" title="maven的核心概念"></a>maven的核心概念</h3><blockquote>
+<p>约定的目录结构<br>POM<br>坐标<br>依赖<br>仓库<br>生命周期/插件/目标<br>继承<br>聚合</p>
+</blockquote>
+<p>以下内容就是按上面进行展开的</p>
+<h4 id="使用idea创建一个maven工程"><a href="#使用idea创建一个maven工程" class="headerlink" title="使用idea创建一个maven工程"></a>使用idea创建一个maven工程</h4><ol>
+<li><p>idea支持创建maven项目<br><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/NFqnYK.jpg"></p>
+<p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/Oo9fzo.jpg"></p>
+<p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/ZhCzDy.jpg"></p>
+<p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/C70JLZ.jpg"></p>
+</li>
+</ol>
+<p>pom.xml文件为Maven工程的核心配置文件</p>
+<ol start="2">
+<li>为什么要遵循约定的目录结构呢？<br>我们在开发中如果需要让第三方工具或框架知道我们自己创建的资源在哪，那么基本上就是两种方式：<br>①以配置文件的方式明确告诉框架 如 &lt; param-value&gt;classpath:spring-context.xml &lt; /param-value&gt;<br>②遵循框架内部已经存在的约定 如log4j的配置文件名规定必须为 log4j.properties 或 log4j.xml ；Maven 使用约定的目录结构</li>
+</ol>
+<h4 id="maven常用命令"><a href="#maven常用命令" class="headerlink" title="maven常用命令"></a>maven常用命令</h4><ol>
+<li>注意：执行与构建过程相关的Maven命令，必须进入pom.xml 所在的目录。</li>
+<li>常用命令<blockquote>
+<p>mvn clean : 清理<br>mvn compile : 编译主程序<br>mvn test-compile : 编译测试程序<br>mvn test : 执行测试<br>mvn package : 打包<br>mvn install ： 安装<br>mvn site ：生成站点</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="maven网络问题"><a href="#maven网络问题" class="headerlink" title="maven网络问题"></a>maven网络问题</h4><ol>
+<li>Maven 的核心程序中仅仅定义了抽象的生命周期，但是具体的工作必须有特定的插件来完成。而插件本身不包含在Maven核心程序中。</li>
+<li>当我们执行的Maven命令需要用到某些插件时，Maven核心程序会首先到本地仓库中查找。</li>
+<li>本地仓库的默认位置：~/.m2/repository</li>
+<li>Maven核心程序如果在本地仓库中找不到需要的插件，那么它会自动连接外网，到中央仓库下载。</li>
+<li>如果此时无法连接外网，则构建失败。</li>
+<li>修改默认本地仓库的位置可以让Maven核心程序到我们事先准备好的目录下查找插件<br>①找到Maven解压目录\conf\settings.xml<br>②在setting.xml 文件中找到 localRepository 标签<br>③将 &lt; localRepository&gt;/path/to/local/repo&lt; /localRepository&gt;从注释中取出<br>④将标签体内容修改为自定义的Maven仓库目录</li>
+</ol>
+<p>如果网络慢，也可以配置阿里的国内镜像。</p>
+<h2 id="POM"><a href="#POM" class="headerlink" title="POM"></a>POM</h2><ol>
+<li><p>含义：Project Object Model 项目对象模型<br>DOM ：Document Object Model 文档对象模型</p>
+</li>
+<li><p>pom.xml 对于 Maven工程是核心配置文件，与构建过程相关的一切设置都在这个文件中进行配置。<br>重要程度相当于web.xml 对于动态web工程</p>
+</li>
+</ol>
+<p>POM 中可以指定以下配置：</p>
+<blockquote>
+<p>项目依赖<br>插件<br>执行目标<br>项目构建 profile<br>项目版本<br>项目开发者列表<br>相关邮件列表信息</p>
+</blockquote>
+<p>示例：</p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>project</span> <span class="token attr-name">xmlns</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span> <span class="token punctuation">"</span>http://maven.apache.org/POM/4.0.0<span class="token punctuation">"</span></span>
+    <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span> <span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+    <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span> <span class="token punctuation">"</span>http://maven.apache.org/POM/4.0.0
+    http://maven.apache.org/xsd/maven-4.0.0.xsd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+ 
+    <span class="token comment">&lt;!-- 模型版本 --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>modelVersion</span><span class="token punctuation">&gt;</span></span>4.0.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>modelVersion</span><span class="token punctuation">&gt;</span></span>
+    <span class="token comment">&lt;!-- 公司或者组织的唯一标志，并且配置时生成的路径也是由此生成， 如com.companyname.project-group，maven会将该项目打成的jar包放本地路径：/com/companyname/project-group --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>com.companyname.project-group<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+ 
+    <span class="token comment">&lt;!-- 项目的唯一ID，一个groupId下面可能多个项目，就是靠artifactId来区分的 --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>project<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+ 
+    <span class="token comment">&lt;!-- 版本号 --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>1.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>project</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>所有 POM 文件都需要 project 元素和三个必需字段：groupId，artifactId，version。也就是下面需要说的 坐标</p>
+<h3 id="坐标"><a href="#坐标" class="headerlink" title="坐标"></a>坐标</h3><p>坐标就是用来定位的</p>
+<p>Maven的坐标：<br>使用下面三个向量在仓库中唯一定位一个Maven工程<br>①groupid:公司或组织域名倒序+项目名<br><code>&lt;groupId&gt;com.jackson.youdi&lt;/groupId&gt;</code><br>②artifactid:模块名<br><code>&lt;artifactId&gt;TheOne&lt;/artifactId&gt;</code><br>③version：版本<br><code>&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</code></p>
+<ol start="3">
+<li>Maven 工程的坐标与仓库中路径的对应关系,下面给两个例子<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml">&lt; groupId&gt;org.springframework&lt; /groupId&gt;
+&lt; artifactId&gt;spring-core<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+&lt; version&gt;4.0.0.RELEASE&lt; /version&gt;
+
+org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>mysql<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>mysql-connector-java<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>8.0.18<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+
+mysql/mysql-connector-java/8.0.18/mysql-connector-java-8.0.18.jar
+绝对路径： ~/.m2/repository/mysql/mysql-connector-java/8.0.18/mysql-connector-java-8.0.18.jar<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<p>注意：我们自己的 Maven 工程必须执行安装操作才会进入仓库。安装的命令是：mvn install</p>
+<h3 id="仓库"><a href="#仓库" class="headerlink" title="仓库"></a>仓库</h3><ol>
+<li><p>仓库的分类<br>①本地仓库：当前电脑上部署的仓库目录，为当前电脑上所有Maven工程服务<br>②远程仓库<br>（1）私服：搭建在局域网环境中，为局域网范围内的所有Maven工程服务<br>（2）中央仓库：假设在Internet上，为全世界所有Maven工程服务<br>（3）中央仓库镜像：为了分担中央仓库流量，提升用户访问速度</p>
+</li>
+<li><p>仓库中保存的内容：Maven工程<br>①Maven自身所需要的插件<br>②第三方框架或工具的jar包<br>③我们自己开发的Maven工程</p>
+</li>
+</ol>
+<p>不管是什么样的 jar 包，在仓库中都是按照坐标生成目录结构，所以可以通过统一的方式查询或依赖。</p>
+<p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/i512Gx.jpg"></p>
+<h3 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h3><ol>
+<li>当 A jar 包用到了 B jar 包中的某些类时，A 就对 B 产生了依赖，这是概念上的描述。Maven解析依赖信息时会到仓库中查找被依赖的jar包。<br>对于我们自己开发的Maven工程，要使用mvn install 命令安装后就可以进入仓库。</li>
+</ol>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token comment">&lt;!--    dependecies 项目运行时的jar包--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencies</span><span class="token punctuation">&gt;</span></span>
+    <span class="token comment">&lt;!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>mysql<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>mysql-connector-java<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>8.0.18<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol start="2">
+<li>依赖的范围<br>①从项目结构角度理解compile和test的区别</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">.</span>
+├── main
+│   ├── java  // compile范围依赖
+│   └── resources
+└── <span class="token builtin class-name">test</span>
+    └── java  //  test范围依赖<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>compile范围依赖<br>》对主程序是否有效：有效<br>》对测试程序是否有效：有效<br>》是否参与打包：参与<br>》是否参与部署：参与<br>》典型例子：spring-core</p>
+<p>test范围依赖<br>》对主程序是否有效：无效<br>》对测试程序是否有效：有效<br>》是否参与打包：不参与<br>》是否参与部署：不参与<br>》典型例子：Junit</p>
+<p>②从开发和运行这两个阶段理解compile 和 provided 的区别</p>
+<p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/R1yMAr.jpg"></p>
+<p>》对主程序是否有效：有效<br>》对测试程序是否有效：有效<br>》是否参与打包：不参与<br>》是否参与部署：不参与<br>》典型例子：Servlet-api.jar</p>
+<p>③有效性总结</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>compile</th>
+<th>test</th>
+<th>provided</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主程序</td>
+<td>√</td>
+<td>x</td>
+<td>√</td>
+</tr>
+<tr>
+<td>测试程序</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>参与部署</td>
+<td>√</td>
+<td>x</td>
+<td>x</td>
+</tr>
+</tbody></table>
+<ol start="3">
+<li>依赖的传递性<br>一种相当常见的情况，比如说 A 依赖于其他库 B。如果，另外一个项目 C 想要使用 A ，那么 C 项目也需要使用库 B。<br>Maven 可以避免去搜索所有所需库的需求。Maven 通过读取项目文件（pom.xml），找出它们项目之间的依赖关系。<br>我们需要做的只是在每个项目的 pom 中定义好直接的依赖关系。其他的事情 Maven 会帮我们搞定。<br>通过可传递性的依赖，所有被包含的库的图形会快速的增长。当有重复库时，可能出现的情形将会持续上升。Maven 提供一些功能来控制可传递的依赖的程度。</li>
+</ol>
+<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p><img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/Ljs75u.jpg"></p>
+<p>各个构建环节执行的顺序：不能打乱顺序，必须按照既定的正确顺序来执行。<br>Maven的核心程序中定义了抽象的生命周期，生命周期中各个阶段的具体任务是由插件来完成的。<br>Maven核心程序为了更好的实现自动化构建，按照这一特点执行生命周期中各个阶段：不论现在要执行生命周期中的哪一阶段，都是从这个生命周期最初的位置开始执行。<br>Maven有三套相互独立的生命周期，分别是：</p>
+<h4 id="生命周期-1"><a href="#生命周期-1" class="headerlink" title="生命周期"></a>生命周期</h4><p>①Clean Lifecycle 在进行真正的构建之前进行一些清理工作。<br>②Default Lifecycle 构建的核心部分，编译、测试、打包、安装、部署等等。<br>③Site Lifecycle 生成项目报告，站点，发布站点。</p>
+<p>他们相互独立。也可以直接运行 mvn clean install site 运行所有这三套生命周期。</p>
+<p>每套生命周期都由一组阶段(Phase)组成，我们平时在命令行输入的命令总会对应于一个特定的阶段。比如，运行 mvn clean，这个 clean 是 Clean 生命周期的一个阶段。有 Clean 生命周期，也有 clean 阶段。</p>
+<h4 id="Clean声明周期"><a href="#Clean声明周期" class="headerlink" title="Clean声明周期"></a>Clean声明周期</h4><p>①pre-clean 执行一些需要在clean之前完成的工作<br>②clean 移除所有上一次构建生成的文件<br>③post-clean 执行一些需要在clean 之后立刻完成的工作</p>
+<h4 id="Default声明周期"><a href="#Default声明周期" class="headerlink" title="Default声明周期"></a>Default声明周期</h4><p>Default 生命周期是 Maven 生命周期中最重要的一个，绝大部分工作都发生在这个生命周期中。这里，只解释一些比较重要和常用的阶段：</p>
+<blockquote>
+<p>validate<br>generate-sources<br>process-sources<br>generate-resources<br>process-resources 复制并处理资源文件，至目标目录，准备打包。<br>compile 编译项目的源代码。<br>process-classes<br>generate-test-sources<br>process-test-sources<br>generate-test-resources<br>process-test-resources 复制并处理资源文件，至目标测试目录。<br>test-compile 编译测试源代码。<br>process-test-classes<br>test 使用合适的单元测试框架运行测试。这些测试代码不会被打包或部署。<br>prepare-package<br>package 接受编译好的代码，打包成可发布的格式，如 JAR。<br>pre-integration-test<br>integration-test<br>post-integration-test<br>verify<br>install 将包安装至本地仓库，以让其它项目依赖。<br>deploy 将最终的包复制到远程的仓库，以让其它开发人员与项目共享或部署到服务器上运行。</p>
+</blockquote>
+<h4 id="Site生命周期"><a href="#Site生命周期" class="headerlink" title="Site生命周期"></a>Site生命周期</h4><p>①pre-site 执行一些需要在生成站点文档之前完成的工作<br>②site 生成项目的站点文档<br>③post-site 执行一些需要在生成站点文档之后完成的工作，并且为部署做准备<br>④site-deploy 将生成的站点文档部署到特定的服务器上</p>
+<p>这里经常用到的是 site 阶段和 site-deploy 阶段，用以生成和发布 Maven 站点，这可是 Maven 相当强大的功能，Manager 比较喜欢，文档及统计数据自动生成，很好看。</p>
+<h4 id="插件和目标"><a href="#插件和目标" class="headerlink" title="插件和目标"></a>插件和目标</h4><p>Maven的核心仅仅定义了抽象的声明周期，具体的任务都是交由插件完成的。<br>每个插件都实现多个功能，每个功能就是一个插件目标<br>Maven的生命周期与插件目标相互绑定，以完成某个具体的构建任务。<br>可以将目标看做“调用插件功能的命令”</p>
+<p>例如：compile 就是插件 maven-compiler-plugin 的一个目标；pre-clean 是插件 maven-clean-plugin 的一个目标。</p>
+<p>以上内容来源于网络，推荐给大家比较好的资源： <a target="_blank" rel="noopener" href="https://www.runoob.com/maven/maven-tutorial.html">https://www.runoob.com/maven/maven-tutorial.html</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Jackson</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.jacksonyoudi.com/2021/08/01/maven/">https://www.jacksonyoudi.com/2021/08/01/maven/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Jackson</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/java/">
+                                    <span class="chip bg-color">java</span>
+                                </a>
+                            
+                                <a href="/tags/package-manager/">
+                                    <span class="chip bg-color">package manager</span>
+                                </a>
+                            
+                                <a href="/tags/maven/">
+                                    <span class="chip bg-color">maven</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2021/08/01/maven/">
+                    <div class="card-image">
+                        
+                        <img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/xwoLGY.jpg" class="responsive-img" alt="项目管理工具maven">
+                        
+                        <span class="card-title">项目管理工具maven</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            介绍maven在开发中使用，以及一些专业术语相关的东西
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%B7%A5%E5%85%B7%E8%BD%AF%E4%BB%B6/" class="post-category">
+                                    工具软件
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">java</span>
+                    </a>
+                    
+                    <a href="/tags/package-manager/">
+                        <span class="chip bg-color">package manager</span>
+                    </a>
+                    
+                    <a href="/tags/maven/">
+                        <span class="chip bg-color">maven</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/08/01/colly/">
+                    <div class="card-image">
+                        
+                        <img src="https://raw.githubusercontent.com/jacksonyoudi/images/main/uPic/RYdTI7.png" class="responsive-img" alt="go爬虫框架colly源码以及软件架构分析">
+                        
+                        <span class="card-title">go爬虫框架colly源码以及软件架构分析</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            介绍go爬虫框架，从源码介绍colly数据流转过程
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF/" class="post-category">
+                                    技术
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/crawler/">
+                        <span class="chip bg-color">crawler</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%88%AC%E8%99%AB/">
+                        <span class="chip bg-color">爬虫</span>
+                    </a>
+                    
+                    <a href="/tags/go/">
+                        <span class="chip bg-color">go</span>
+                    </a>
+                    
+                    <a href="/tags/colly/">
+                        <span class="chip bg-color">colly</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: JacksonYoudi<br />'
+            + '文章作者: Jackson<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2021</span>
+            
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">Jackson</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/jacksonyoudi" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:liangchangyoujackson@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
